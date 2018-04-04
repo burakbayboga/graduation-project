@@ -62,6 +62,10 @@ public class TakeCover : BTNode {
 		return 1;
 	}
 
+	void EliminatePossibilitiesByLOS(){
+		
+	}
+
 	Vector3 GetClosestCoordinate(int coverIndex){
 		float lowestDistance = float.MaxValue;
 		float tempDistance = 0;
@@ -119,7 +123,7 @@ public class TakeCover : BTNode {
 		}
 
 		//BLOOD FOR THE BLOOD GOD
-		return -1;	
+		return -1;
 
 	}
 

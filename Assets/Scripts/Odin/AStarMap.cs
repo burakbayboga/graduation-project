@@ -7,6 +7,10 @@ public class AStarMap : MonoBehaviour {
 	public int mapSize;
 	public AStarNode[,] map;
 
+
+
+
+
 	void Start(){
 		map = new AStarNode[mapSize, mapSize];
 		for(int i=0; i < mapSize; i++){

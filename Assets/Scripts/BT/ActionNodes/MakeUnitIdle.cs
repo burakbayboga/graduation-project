@@ -9,6 +9,7 @@ public class MakeUnitIdle : BTNode {
 	}
 
 	public override int Execute(){
+		Debug.Log("makeUnitIdle");
 		unit.currentCommand = "idle";
 		return 0;
 	}

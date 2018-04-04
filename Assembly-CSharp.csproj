@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\CSF0.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\FallbackNode.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\SequenceNode.cs" />
+     <Compile Include="Assets\Scripts\BT\WrapperNodes\InverterNode.cs" />
      <Compile Include="Assets\Scripts\Colliders\CoverSpotsCollider.cs" />
      <Compile Include="Assets\Scripts\Colliders\RangeCollider.cs" />
      <Compile Include="Assets\Scripts\Colliders\SpotCollider.cs" />

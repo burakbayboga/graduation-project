@@ -17,6 +17,8 @@ public class Mover : MonoBehaviour {
 	Stack<Vector2> path;
 	bool speedCooldown;
 
+
+	
 	void Start(){
 		unit = GetComponent<GCS>();
 		moveSpeed = unit.moveSpeed;
@@ -25,6 +27,9 @@ public class Mover : MonoBehaviour {
 		map = unit.odin.GetComponent<AStarMap>().map;
 		pathFinder.map = map;
 		speedCooldown = false;
+	
+
+		
 	}
 
 	public void MultiplyMoveSpeed(float multiplier){
@@ -73,13 +78,15 @@ public class Mover : MonoBehaviour {
 	}
 
 	void StartReplanningTimer(){
-		if(!replanningTimerRunning)
-		StartCoroutine(ReplanningTimer());
+		if(!replanningTimerRunning){
+			StartCoroutine(ReplanningTimer());
+		}
 	}
 
 
 
 	void MoveObject(Vector2 target){
+		
 		bool crash = false;
 		int layerMask0 = 1 << 8;
 		int layerMask1 = 1 << 9;
@@ -94,7 +101,7 @@ public class Mover : MonoBehaviour {
 		}
 		if(crash){
 			path.Push(target);
-			StartReplanningTimer()
+			StartReplanningTimer();
 			return;
 		}
 		gameObject.transform.position = new Vector3(target.x, target.y);

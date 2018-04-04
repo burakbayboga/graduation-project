@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class NetMan : NetworkManager {
 
 	public int nextPlayer = 0;
+	
 
 	int myID;
 
@@ -20,6 +21,8 @@ public class NetMan : NetworkManager {
 				coverSpots[j].emptySlot = myID;
 			}
 		}
+
+
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){

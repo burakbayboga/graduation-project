@@ -42,6 +42,7 @@ public class Shoot : BaseFire {
 		}
 
 		int enemyCoverLevel = EnemyCoverLevel(enemyPos, shooterPos);
+		Debug.Log(enemyCoverLevel);
 		if(enemyCoverLevel == 1){
 			hitDie -= hitDieType / 3;
 		}
