@@ -10,6 +10,7 @@ public class BeingShotAt : BTNode {
 	}
 
 	public override int Execute(){
+		unit.ClearEnemyList();
 		for(int i=0; i < unit.enemies.Count; i++){
 			if(unit.enemies[i].canShootMe){
 				return 0;

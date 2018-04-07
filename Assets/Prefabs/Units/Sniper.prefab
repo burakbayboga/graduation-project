@@ -302,7 +302,7 @@ MonoBehaviour:
   hitDieType: 8
   hitDieCount: 3
   fireRate: 1
-  armorClass: 107
+  armorClass: 7
   gunNoiseReach: 12
   stressResilience: 70
   currentStress: 0
@@ -319,6 +319,7 @@ MonoBehaviour:
   personCountText: {fileID: 0}
   localUnit: 0
   currentTarget: {x: 0, y: 0, z: 0}
+  originalTarget: {x: 0, y: 0, z: 0}
   spottedUnits: []
 --- !u!114 &114699260510005966
 MonoBehaviour:

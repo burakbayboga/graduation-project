@@ -9,6 +9,7 @@ public class IsEnemyWeakerThanUs : BTNode {
 	}
 
 	public override int Execute(){
+		
 		int layerMask = 1 << unit.gameObject.layer;
 		Collider[] allies = Physics.OverlapSphere(unit.gameObject.transform.position, 15f, layerMask);
 		if(unit.gameObject.layer == 8){

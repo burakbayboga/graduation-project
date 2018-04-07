@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\BT\ActionNodes\PushForward.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\RunToTheHills.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\TakeCover.cs" />
+     <Compile Include="Assets\Scripts\BT\ActionNodes\TakeCover_Deprecated.cs" />
      <Compile Include="Assets\Scripts\BT\BT.cs" />
      <Compile Include="Assets\Scripts\BT\BTNode.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\AwayFromTargetLocation.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\Scripts\Colliders\RangeCollider.cs" />
      <Compile Include="Assets\Scripts\Colliders\SpotCollider.cs" />
      <Compile Include="Assets\Scripts\CommandHub.cs" />
+     <Compile Include="Assets\Scripts\CoverSpotCandidate.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\GCS.cs" />
      <Compile Include="Assets\Scripts\GOS.cs" />

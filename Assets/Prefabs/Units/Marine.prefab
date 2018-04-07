@@ -323,7 +323,7 @@ MonoBehaviour:
   hitDieType: 6
   hitDieCount: 2
   fireRate: 0.5
-  armorClass: 109
+  armorClass: 9
   gunNoiseReach: 8
   stressResilience: 30
   currentStress: 0
@@ -340,6 +340,7 @@ MonoBehaviour:
   personCountText: {fileID: 0}
   localUnit: 0
   currentTarget: {x: 0, y: 0, z: 0}
+  originalTarget: {x: 0, y: 0, z: 0}
   spottedUnits: []
 --- !u!135 &135241639216775148
 SphereCollider:
