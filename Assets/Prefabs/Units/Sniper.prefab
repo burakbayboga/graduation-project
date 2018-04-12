@@ -302,7 +302,7 @@ MonoBehaviour:
   hitDieType: 8
   hitDieCount: 3
   fireRate: 1
-  armorClass: 7
+  armorClass: 107
   gunNoiseReach: 12
   stressResilience: 70
   currentStress: 0

@@ -11,11 +11,14 @@ public class Mover : MonoBehaviour {
 	bool coroutineRunning;
 
 	bool replanningTimerRunning;
+	Coroutine replanningTimerCoroutine;
 	
 
 	AStarNode[,] map;
 	Stack<Vector2> path;
 	bool speedCooldown;
+
+	Vector3 ultTarget;
 
 
 	
@@ -25,11 +28,9 @@ public class Mover : MonoBehaviour {
 		coroutineRunning = false;
 		pathFinder = new AStar();
 		map = unit.odin.GetComponent<AStarMap>().map;
+		path = new Stack<Vector2>();
 		pathFinder.map = map;
 		speedCooldown = false;
-	
-
-		
 	}
 
 	public void MultiplyMoveSpeed(float multiplier){
@@ -50,17 +51,29 @@ public class Mover : MonoBehaviour {
 	}
 
 	public void GetMoving(int _x, int _y){
-		Override();
-		moveCoroutine = StartCoroutine(MoveCoroutine(_x, _y));
+		//Override();
+		ultTarget = new Vector3(_x, _y);
+		//moveCoroutine = StartCoroutine(MoveCoroutine(/*_x, _y*/));
+		GetPath(_x, _y);
+		StartMovement();
 	}
 
-	IEnumerator MoveCoroutine(int _x, int _y){
+	void StartMovement(){
+		Override();
+		moveCoroutine = StartCoroutine(MoveCoroutine());
+	}
+
+	void GetPath(int _x, int _y){
+		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(_x, _y)); 
+	}
+
+	IEnumerator MoveCoroutine(/*int _x, int _y*/){
 		coroutineRunning = true;
-		path = new Stack<Vector2>();
+		
 		//a cute little stress test
 		//slight delay for x50 runs for 90 units of distance
 		//for(int i=0; i < 50; i++){
-			path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(_x, _y));
+		//path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(_x, _y));
 		//}
 		while(path.Count > 0){
 			MoveObject(path.Pop());
@@ -69,17 +82,36 @@ public class Mover : MonoBehaviour {
 		coroutineRunning = false;
 	}
 
+	void ReplanAndMove(){
+		int layerMask0 = 1 << 8;
+		int layerMask1 = 1 << 9;
+		int layerMask = layerMask0 | layerMask1;
+		Collider[] unitsNearby = Physics.OverlapSphere(unit.transform.position, 10f, layerMask);
+		for(int i=0; i < unitsNearby.Length; i++){
+			Vector3 temp = unitsNearby[i].transform.position;
+			map[(int)(temp.x), (int)(temp.y)].walkable = false;
+		}
+		GetPath((int)(ultTarget.x), (int)(ultTarget.y));
+		StartMovement();
+		for(int i=0; i < unitsNearby.Length; i++){
+			Vector3 temp = unitsNearby[i].transform.position;
+			map[(int)(temp.x), (int)(temp.y)].walkable = true;
+		}
+	}
+
 	IEnumerator ReplanningTimer(){
 		replanningTimerRunning = true;
-		yield return new WaitForSeconds(3f);
-
+		yield return new WaitForSeconds(1.5f);
+		ReplanAndMove();
 
 		replanningTimerRunning = false;
 	}
 
+
+
 	void StartReplanningTimer(){
 		if(!replanningTimerRunning){
-			StartCoroutine(ReplanningTimer());
+			replanningTimerCoroutine = StartCoroutine(ReplanningTimer());
 		}
 	}
 
@@ -103,6 +135,10 @@ public class Mover : MonoBehaviour {
 			path.Push(target);
 			StartReplanningTimer();
 			return;
+		}
+		if(replanningTimerRunning){
+			StopCoroutine(replanningTimerCoroutine);
+			replanningTimerRunning = false;
 		}
 		gameObject.transform.position = new Vector3(target.x, target.y);
 		

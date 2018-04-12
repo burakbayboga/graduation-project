@@ -28,7 +28,8 @@ public class BT {
 	}
 
 	void GenerateExplosivesBTv100(){
-
+		//temporary generic bt
+		GenerateBTv010();
 	}
 
 	void GenerateSniperBTv100(){
@@ -95,7 +96,8 @@ public class BT {
 	}
 
 	void GenerateMarineBTv100(){
-
+		//temporary generic bt
+		GenerateBTv010();
 	}
 
 	void GenerateSpotterBTv100(){

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public class AStarNode {
 
 	public float gCost;
@@ -42,5 +43,4 @@ public class AStarNode {
 		hCost = (pos - targetPos).magnitude;
 		//hCost = (int)(Math.Abs(pos.x - targetPos.x) + Math.Abs(pos.y - targetPos.y));
 	}
-	
 }
