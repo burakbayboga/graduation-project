@@ -123,9 +123,14 @@ public class Mover : MonoBehaviour {
 	void ReplanAndMove(){
 
 		//add case where already in target grid
-		if(true){
-
+		//get new target coord inside the target grid
+		Vector3 currentPosition = unit.transform.position;
+		if(currentPosition.x >= unit.gridTarget.x*5f && currentPosition.x <= unit.gridTarget.x*5f+5f
+			&& currentPosition.y >= unit.gridTarget.y*5f && currentPosition.y <= unit.gridTarget.y*5f+5f){
+			GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
+			return;
 		}
+		//get new path to same real world coordinate
 		int layerMask0 = 1 << 8;
 		int layerMask1 = 1 << 9;
 		int layerMask = layerMask0 | layerMask1;
