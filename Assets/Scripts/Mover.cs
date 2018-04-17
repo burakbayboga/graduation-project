@@ -31,6 +31,7 @@ public class Mover : MonoBehaviour {
 		path = new Stack<Vector2>();
 		pathFinder.map = map;
 		speedCooldown = false;
+		StartCoroutine(InfiniteMoveCoroutine());
 	}
 
 	
@@ -60,7 +61,7 @@ public class Mover : MonoBehaviour {
 			unit.rWTarget = new Vector3(ultTarget.x, ultTarget.y);
 		}*/
 		GetPath(ultTarget);
-		StartMovement();
+		//StartMovement();
 	}
 
 	public void GetMovingGrid(int _xGrid, int _yGrid){
@@ -82,7 +83,7 @@ public class Mover : MonoBehaviour {
 	public void RunForCover(int _x, int _y){
 		ultTarget = new Vector2(_x, _y);
 		GetPath(ultTarget);
-		StartMovement();
+		//StartMovement();
 	}
 
 	void StartMovement(){
@@ -92,6 +93,16 @@ public class Mover : MonoBehaviour {
 
 	void GetPath(Vector2 targetPos){
 		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), targetPos); 
+	}
+
+	IEnumerator InfiniteMoveCoroutine(){
+		while(true){
+			if(path.Count > 0){
+				MoveObject(path.Pop());
+			}
+
+			yield return new WaitForSeconds(moveSpeed);
+		}
 	}
 
 	IEnumerator MoveCoroutine(/*int _x, int _y*/){
@@ -124,7 +135,7 @@ public class Mover : MonoBehaviour {
 			map[(int)(temp.x), (int)(temp.y)].walkable = false;
 		}
 		GetPath(ultTarget);
-		StartMovement();
+		//StartMovement();
 		for(int i=0; i < unitsNearby.Length; i++){
 			Vector3 temp = unitsNearby[i].transform.position;
 			map[(int)(temp.x), (int)(temp.y)].walkable = true;

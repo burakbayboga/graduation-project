@@ -318,7 +318,7 @@ MonoBehaviour:
   - {fileID: 1900255919200374, guid: cc71e10e560b88b46bd9b4e16a0230e8, type: 2}
   - {fileID: 1730212354165352, guid: 30122abe687956540a6a33cfbf7bb40a, type: 2}
   - {fileID: 1855380833474114, guid: 49816ef3eacf9e54ebcfd40ed57b6bdd, type: 2}
-  - {fileID: 1449302850269978, guid: bf8e8d5bc0bdce0448566dea0f53c81d, type: 2}
+  - {fileID: 0}
   - {fileID: 1179630930423322, guid: 0313f52ceba8da4478900198f598541d, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
@@ -376,7 +376,7 @@ MonoBehaviour:
   isNetworkActive: 0
   matchMaker: {fileID: 0}
   nextPlayer: 0
-  groundPrefab: {fileID: 1449302850269978, guid: bf8e8d5bc0bdce0448566dea0f53c81d,
+  gridManagerPrefab: {fileID: 1948253287036926, guid: ddc778470009a744b9da041e692b6613,
     type: 2}
 --- !u!1001 &1679409824
 Prefab:
