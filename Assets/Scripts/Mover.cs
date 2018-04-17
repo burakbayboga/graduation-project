@@ -14,11 +14,11 @@ public class Mover : MonoBehaviour {
 	Coroutine replanningTimerCoroutine;
 	
 
-	AStarNode[,] map;
+	public AStarNode[,] map;
 	Stack<Vector2> path;
 	bool speedCooldown;
 
-	Vector3 ultTarget;
+	Vector2 ultTarget;
 
 
 	
@@ -32,6 +32,8 @@ public class Mover : MonoBehaviour {
 		pathFinder.map = map;
 		speedCooldown = false;
 	}
+
+	
 
 	public void MultiplyMoveSpeed(float multiplier){
 		if(speedCooldown){
@@ -50,11 +52,36 @@ public class Mover : MonoBehaviour {
 		speedCooldown = false;
 	}
 
-	public void GetMoving(int _x, int _y){
+
+
+	public void GetMovingRW(Vector2 target){
+		ultTarget = target;
+		/*if(unit.rWTarget.x == -1f){
+			unit.rWTarget = new Vector3(ultTarget.x, ultTarget.y);
+		}*/
+		GetPath(ultTarget);
+		StartMovement();
+	}
+
+	public void GetMovingGrid(int _xGrid, int _yGrid){
 		//Override();
-		ultTarget = new Vector3(_x, _y);
+
+
+		Vector2 tempTarget = GridToRW.GetGridToRW(_xGrid, _yGrid, unit.odin.GetComponent<AStarMap>());
+		if(tempTarget.x == -1f){
+			//FIX ME PLS
+			Debug.Log("grid full");
+		}
+		unit.rWTarget = new Vector3(tempTarget.x, tempTarget.y);
+		GetMovingRW(tempTarget);
 		//moveCoroutine = StartCoroutine(MoveCoroutine(/*_x, _y*/));
-		GetPath(_x, _y);
+		//GetPath(ultTarget);
+		//StartMovement();
+	}
+
+	public void RunForCover(int _x, int _y){
+		ultTarget = new Vector2(_x, _y);
+		GetPath(ultTarget);
 		StartMovement();
 	}
 
@@ -63,8 +90,8 @@ public class Mover : MonoBehaviour {
 		moveCoroutine = StartCoroutine(MoveCoroutine());
 	}
 
-	void GetPath(int _x, int _y){
-		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(_x, _y)); 
+	void GetPath(Vector2 targetPos){
+		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), targetPos); 
 	}
 
 	IEnumerator MoveCoroutine(/*int _x, int _y*/){
@@ -83,6 +110,11 @@ public class Mover : MonoBehaviour {
 	}
 
 	void ReplanAndMove(){
+
+		//add case where already in target grid
+		if(true){
+
+		}
 		int layerMask0 = 1 << 8;
 		int layerMask1 = 1 << 9;
 		int layerMask = layerMask0 | layerMask1;
@@ -91,7 +123,7 @@ public class Mover : MonoBehaviour {
 			Vector3 temp = unitsNearby[i].transform.position;
 			map[(int)(temp.x), (int)(temp.y)].walkable = false;
 		}
-		GetPath((int)(ultTarget.x), (int)(ultTarget.y));
+		GetPath(ultTarget);
 		StartMovement();
 		for(int i=0; i < unitsNearby.Length; i++){
 			Vector3 temp = unitsNearby[i].transform.position;

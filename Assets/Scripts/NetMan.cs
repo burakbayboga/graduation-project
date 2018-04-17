@@ -6,9 +6,13 @@ using UnityEngine.Networking;
 public class NetMan : NetworkManager {
 
 	public int nextPlayer = 0;
+	public GameObject groundPrefab;
+
 	
 
 	int myID;
+
+
 
 	void Start(){
 		myID = gameObject.GetInstanceID();
@@ -21,8 +25,20 @@ public class NetMan : NetworkManager {
 				coverSpots[j].emptySlot = myID;
 			}
 		}
+		InitializeGround();
+		
 
+	}
 
+	void InitializeGround(){
+		GameObject ground;
+		//FIX HARDCODED MAPSIZE
+		for(int i=0; i < 100/10; i++){
+			for(int j=0; j < 100/10; j++){
+				ground = Instantiate(groundPrefab, new Vector3(i*5 + 2.5f, j*5 + 2.5f, 0f), Quaternion.identity);
+				ground.GetComponent<Ground>().InitializeGridCoords();
+			}
+		}
 	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){

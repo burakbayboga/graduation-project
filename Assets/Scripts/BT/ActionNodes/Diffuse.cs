@@ -18,8 +18,8 @@ public class Diffuse : BTNode {
 	}
 
 	public override int Execute(){
-
-		currentPos = unit.gameObject.transform.position;
+		return 0;
+		/*currentPos = unit.gameObject.transform.position;
 		if(currentPos == previousTarget){
 			return 0;
 		}
@@ -28,7 +28,7 @@ public class Diffuse : BTNode {
 		Vector3 targetPos = availableSpots[Random.Range(0, availableSpots.Count)];
 		previousTarget = targetPos;
 		unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
-		return 1;
+		return 1;*/
 
 	}
 

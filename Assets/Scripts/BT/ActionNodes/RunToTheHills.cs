@@ -54,7 +54,7 @@ public class RunToTheHills : BTNode {
 		//Debug.Log(unit.side + " targetPos: " + targetPos);
 		//unit.mover.Override();
 		//unit.mover.AttackMove((int)(targetPos.x), (int)(targetPos.y));
-		unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
+		unit.mover.GetMovingRW(new Vector2(targetPos.x, targetPos.y));
 		return 0;
 	}
 }

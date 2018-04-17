@@ -9,7 +9,7 @@ public class NotAtTargetLocation : BTNode {
 	}
 
 	public override int Execute(){
-		if(unit.gameObject.transform.position != unit.currentTarget){
+		if(unit.gameObject.transform.position != unit.rWTarget){
 			return 0;
 		}
 		return -1;

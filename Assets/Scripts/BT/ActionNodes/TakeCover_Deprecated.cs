@@ -22,7 +22,8 @@ public class TakeCover_Deprecated : BTNode {
 	}
 
 	public override int Execute(){
-		currentPos = unit.gameObject.transform.position;
+		return 0;
+		/*currentPos = unit.gameObject.transform.position;
 		coverColliders = GetColliders();
 
 		bool coverExists = false;
@@ -59,7 +60,7 @@ public class TakeCover_Deprecated : BTNode {
 
 		previousTarget = targetPos;
 		unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
-		return 1;
+		return 1;*/
 	}
 
 	

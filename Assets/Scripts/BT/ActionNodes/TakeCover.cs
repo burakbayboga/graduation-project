@@ -59,7 +59,10 @@ public class TakeCover : BTNode {
 			return 0;
 		}
 		previousTarget = targetPos;
-		unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
+		//unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
+		//unit.mover.RunForCover((int)(targetPos.x), (int)(targetPos.y));
+		unit.sideTracked = true;
+		unit.mover.GetMovingRW(new Vector2(targetPos.x, targetPos.y));
 		return 1;
 
 

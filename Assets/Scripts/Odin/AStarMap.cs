@@ -27,6 +27,5 @@ public class AStarMap : MonoBehaviour {
 			tempPosition = obstacles[i].transform.position;
 			map[(int)tempPosition.x, (int)tempPosition.y].walkable = false;
 		}
-		
 	}
 }

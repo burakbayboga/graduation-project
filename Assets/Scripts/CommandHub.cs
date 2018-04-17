@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class CommandHub : NetworkBehaviour {
 
 	public GameObject[] deployableUnits;
-	public GameObject odin;
+	public GameObject odinPrefab;
 
 
 	[SyncVar]
@@ -17,7 +17,8 @@ public class CommandHub : NetworkBehaviour {
 	[SyncVar]
 	public int emptySlot;
 	public NetworkConnection conn;
-	
+	public GameObject _odinToSpawn;
+	public GameObject odin;
 
 	char MUI;
 	string ISUnits;
@@ -30,9 +31,14 @@ public class CommandHub : NetworkBehaviour {
 		
 		IS = "";
 		MUI = '*';
-		Instantiate(odin, new Vector3(0f, 0f, 0f), Quaternion.identity);
+		
 		deployedUnits = new List<GameObject>();
 		spotters = new List<GameObject>();
+		if(client == 0){
+			_odinToSpawn = Instantiate(odinPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+			NetworkServer.Spawn(_odinToSpawn);
+		}
+		odin = GameObject.FindGameObjectsWithTag("odin")[0];
 	}
 
 	[Command]
@@ -76,6 +82,11 @@ public class CommandHub : NetworkBehaviour {
 				ISOpCode = "";
 				ISTargetCoords = "";
 			}
+			else if(c == '\b'){
+				if(IS.Length != 0){
+					IS = IS.Substring(0, IS.Length - 1);
+				}
+			}
 			else if(c == '\\'){
 				IS = "";
 			}
@@ -85,23 +96,24 @@ public class CommandHub : NetworkBehaviour {
 		}
 	}
 
-	
+
 
 	[Command]
 	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY){
 		if(ISOpCode == "deploy"){
 			GameObject newUnit;
+			Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
 			if(ISUnits == "marine"){
-				newUnit = Instantiate(deployableUnits[0], new Vector3(targetX, targetY), Quaternion.identity);
+				newUnit = Instantiate(deployableUnits[0], deployPosition, Quaternion.identity);
 			}
 			/*else if(ISUnits == "marine1"){
 				newUnit = Instantiate(deployableUnits[1], new Vector3(targetX, targetY), Quaternion.identity);
 			}*/
 			else if(ISUnits == "sniper"){
-				newUnit = Instantiate(deployableUnits[1], new Vector3(targetX, targetY), Quaternion.identity);
+				newUnit = Instantiate(deployableUnits[1], deployPosition, Quaternion.identity);
 			}
 			else if(ISUnits == "spotter"){
-				newUnit = Instantiate(deployableUnits[2], new Vector3(targetX, targetY), Quaternion.identity);
+				newUnit = Instantiate(deployableUnits[2], deployPosition, Quaternion.identity);
 			}
 			else{
 				return;
@@ -118,8 +130,9 @@ public class CommandHub : NetworkBehaviour {
 				//deployedUnits[unitIDs[i]].GetComponent<GCS>().mover.GetMoving(targetX, targetY);
 				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
 				unitCommanded.currentCommand = ISOpCode;
-				unitCommanded.currentTarget = new Vector3(targetX, targetY);
-				unitCommanded.originalTarget = new Vector3(targetX, targetY);
+				unitCommanded.gridTarget = new Vector2(targetX, targetY);
+				//unitCommanded.currentTarget = new Vector3(targetX, targetY);
+				//unitCommanded.originalTarget = new Vector3(targetX, targetY);
 			}
 		}
 		else if(ISOpCode == "hold_position"){

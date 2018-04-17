@@ -11,6 +11,8 @@ public class MakeUnitIdle : BTNode {
 	public override int Execute(){
 		Debug.Log("makeUnitIdle");
 		unit.currentCommand = "idle";
+		unit.rWTarget = new Vector3(-1f, -1f, -1f);
+		unit.gridTarget = new Vector2(-1f, -1f);
 		return 0;
 	}
 	

@@ -39,12 +39,19 @@ public class GCS : NetworkBehaviour {
 	public Vector3 currentTarget;
 	public Vector3 originalTarget;
 
+	public Vector2 gridTarget;
+	public Vector3 rWTarget;
+	public bool sideTracked;
+
 	public List<GameObject> spottedUnits;
 	
 
 	
 
 	void Start(){
+		gridTarget = new Vector2(-1f, -1f);
+		rWTarget = new Vector2(-1f, -1f);
+		sideTracked = false;
 		GetComponent<Renderer>().sharedMaterial = materials[client];
 		odin = GameObject.FindGameObjectsWithTag("odin")[0];
 		mover = GetComponent<Mover>();
@@ -75,6 +82,8 @@ public class GCS : NetworkBehaviour {
 		InitBT();
 		StartCoroutine(ShootCoroutine());
 	}
+
+	
 
 	[ClientRpc]
 	public void RpcLickWound(int newPersonCount){

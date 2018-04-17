@@ -80,10 +80,12 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\GCS.cs" />
      <Compile Include="Assets\Scripts\GOS.cs" />
+     <Compile Include="Assets\Scripts\Ground.cs" />
      <Compile Include="Assets\Scripts\Mover.cs" />
      <Compile Include="Assets\Scripts\NetMan.cs" />
      <Compile Include="Assets\Scripts\Odin\AStarMap.cs" />
      <Compile Include="Assets\Scripts\Odin\EmptySpotIDInit.cs" />
+     <Compile Include="Assets\Scripts\Odin\GridToRW.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStarNode.cs" />
      <Compile Include="Assets\Scripts\Skills\BaseFire.cs" />

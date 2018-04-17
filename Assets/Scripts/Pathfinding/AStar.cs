@@ -8,6 +8,8 @@ public class AStar {
 	List<AStarNode> openList;
 	List<Vector2> alteredNodes;
 
+	
+
 	public AStarNode[,] map;
 
 	public Stack<Vector2> FindPath(Vector2 startPos, Vector2 targetPos){

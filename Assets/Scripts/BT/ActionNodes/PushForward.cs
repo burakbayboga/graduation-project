@@ -12,14 +12,14 @@ public class PushForward : BTNode {
 	}
 
 	public override int Execute(){
-		if(unit.currentTarget == previousTarget){
+		/*if(unit.currentTarget == previousTarget){
 			return 0;
-		}
+		}*/
 
-		previousTarget = unit.currentTarget;
+		//previousTarget = unit.currentTarget;
 		unit.mover.MultiplyMoveSpeed(2.0f);
-		unit.mover.GetMoving((int)(unit.currentTarget.x), (int)(unit.currentTarget.y));
-		return 1;
+		//unit.mover.GetMoving((int)(unit.currentTarget.x), (int)(unit.currentTarget.y));
+		return 0;
 
 	}
 	
