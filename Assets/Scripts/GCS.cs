@@ -49,6 +49,7 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
+		string deneme = "marine deploy 5,5 -3";
 		gridTarget = new Vector2(-1f, -1f);
 		rWTarget = new Vector2(-1f, -1f);
 		sideTracked = false;

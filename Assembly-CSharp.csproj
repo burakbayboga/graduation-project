@@ -87,6 +87,7 @@
      <Compile Include="Assets\Scripts\Odin\EmptySpotIDInit.cs" />
      <Compile Include="Assets\Scripts\Odin\GridManager.cs" />
      <Compile Include="Assets\Scripts\Odin\GridToRW.cs" />
+     <Compile Include="Assets\Scripts\overlapbox.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStarNode.cs" />
      <Compile Include="Assets\Scripts\Skills\BaseFire.cs" />

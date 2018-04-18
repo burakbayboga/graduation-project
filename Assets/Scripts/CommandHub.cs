@@ -27,6 +27,7 @@ public class CommandHub : NetworkBehaviour {
 	int targetX;
 	int targetY;
 
+
 	void Start(){
 		
 		IS = "";
@@ -68,6 +69,15 @@ public class CommandHub : NetworkBehaviour {
 		}
 	}
 
+	void ClearDeployedUnitsList(){
+		for(int i=0; i < deployedUnits.Count; i++){
+			if(deployedUnits[i] == null){
+				deployedUnits.RemoveAt(i);
+				i--;
+			}
+		}
+	}
+
 	void Update(){
 		if(!isLocalPlayer){
 			return;
@@ -98,6 +108,8 @@ public class CommandHub : NetworkBehaviour {
 
 
 
+
+
 	[Command]
 	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY){
 		if(ISOpCode == "deploy"){
@@ -124,6 +136,7 @@ public class CommandHub : NetworkBehaviour {
 			NetworkServer.Spawn(newUnit);
 		}
 		else if(ISOpCode == "move"){
+			ClearDeployedUnitsList();
 			List<int> unitIDs = ParseISUnits(ISUnits);
 			for(int i=0; i < unitIDs.Count; i++){
 				//Debug.Log(deployedUnits[unitIDs[i]].GetComponent<GCS>().moveSpeed);
@@ -136,6 +149,7 @@ public class CommandHub : NetworkBehaviour {
 			}
 		}
 		else if(ISOpCode == "hold_position"){
+			ClearDeployedUnitsList();
 			List<int> unitIDs = ParseISUnits(ISUnits);
 			for(int i=0; i < unitIDs.Count; i++){
 				//Debug.Log(deployedUnits[unitIDs[i]].GetComponent<GCS>().moveSpeed);
@@ -201,9 +215,5 @@ public class CommandHub : NetworkBehaviour {
 			return;
 		}
 		GUI.TextField(new Rect(80, 400, 200, 20), IS);
-	}
-
-	
-
-	
+	}	
 }
