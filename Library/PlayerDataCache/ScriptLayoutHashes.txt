@@ -117,6 +117,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Spotter_Shoot
 bb06ab5565294c488b3f77437bd10335 Assembly-CSharp.dll:.NetMan
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Snipe
+598b3fa42ee9121877649d393edb216e Assembly-CSharp.dll:.overlapbox
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -147,4 +148,3 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 7cf98ef8aa276e5d124efa996ee0fe2b Assembly-CSharp.dll:.CoverSpotsCollider
 7b427d622c9373342a67774640c02dc6 Assembly-CSharp.dll:.AStarMap
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Mover
-598b3fa42ee9121877649d393edb216e Assembly-CSharp.dll:.overlapbox

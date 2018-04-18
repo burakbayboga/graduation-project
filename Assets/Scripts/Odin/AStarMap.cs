@@ -26,6 +26,7 @@ public class AStarMap : MonoBehaviour {
 		for(int i=0; i < obstacles.Length; i++){
 			tempPosition = obstacles[i].transform.position;
 			map[(int)tempPosition.x, (int)tempPosition.y].walkable = false;
+			//Debug.Log(tempPosition);
 		}
 	}
 }

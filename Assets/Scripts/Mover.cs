@@ -155,8 +155,6 @@ public class Mover : MonoBehaviour {
 		replanningTimerRunning = false;
 	}
 
-
-
 	void StartReplanningTimer(){
 		if(!replanningTimerRunning){
 			replanningTimerCoroutine = StartCoroutine(ReplanningTimer());

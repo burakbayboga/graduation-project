@@ -35,7 +35,7 @@ public class CommandHub : NetworkBehaviour {
 		
 		deployedUnits = new List<GameObject>();
 		spotters = new List<GameObject>();
-		if(client == 0){
+		if(client == 0 && isLocalPlayer){
 			_odinToSpawn = Instantiate(odinPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
 			NetworkServer.Spawn(_odinToSpawn);
 		}

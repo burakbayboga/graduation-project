@@ -8,8 +8,7 @@ public class GridToRW : MonoBehaviour {
 
 	public static Vector2 GetGridToRW(int gridCoordX, int gridCoordY, AStarMap mapHook){
 		Vector2 gridStartRW = new Vector2(gridCoordX*5f, gridCoordY*5f);
-		return GridToRW.GetVacantPoint((int)(gridStartRW.x), (int)(gridStartRW.y), mapHook);
-		
+		return GridToRW.GetVacantPoint((int)(gridStartRW.x), (int)(gridStartRW.y), mapHook);	
 	}
 
 	static Vector2 GetVacantPoint(int xStartRW, int yStartRW, AStarMap mapHook){
@@ -22,13 +21,11 @@ public class GridToRW : MonoBehaviour {
 		}
 
 		List<Vector2> possiblePositions = new List<Vector2>();
-		possiblePositions.Clear();
-		Debug.Log(possiblePositions.Count);
 		for(int i=xStartRW; i < xStartRW+6; i++){
 			for(int j=yStartRW; j < yStartRW+6; j++){
 				if(map[i,j].walkable){
+					//Debug.Log(map[i,j].pos);
 					possiblePositions.Add(map[i,j].pos);
-					Debug.Log(map[i,j].pos);
 				}
 			}
 		}

@@ -10,6 +10,7 @@ public class GOS : MonoBehaviour {
 	public int emptySlot;
 
 	void Start(){
+		//Debug.Log(gameObject.transform.position);
 		coordinates = new List<Vector3>();
 		//0
 		coordinates.Add(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1));
