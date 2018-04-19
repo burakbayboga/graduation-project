@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\BT\ActionNodes\Diffuse.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\GoTowardsTargetLocation.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\MakeUnitIdle.cs" />
+     <Compile Include="Assets\Scripts\BT\ActionNodes\MakeUnitInPosition.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\PushForward.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\RunToTheHills.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\TakeCover.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Scripts\BT\ConditionNodes\BeingShotAt.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsCommandHoldPosition.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsCommandIdle.cs" />
+     <Compile Include="Assets\Scripts\BT\ConditionNodes\IsCommandInPosition.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsCommandMove.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsEnemyNearby.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsEnemyWeakerThanUs.cs" />

@@ -127,7 +127,13 @@ public class Mover : MonoBehaviour {
 		Vector3 currentPosition = unit.transform.position;
 		if(currentPosition.x >= unit.gridTarget.x*5f && currentPosition.x <= unit.gridTarget.x*5f+5f
 			&& currentPosition.y >= unit.gridTarget.y*5f && currentPosition.y <= unit.gridTarget.y*5f+5f){
-			GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
+			if(unit.diffusing){
+				unit.diffusionFail = true;
+			}
+			else{
+				GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
+			}
+			
 			return;
 		}
 		//get new path to same real world coordinate

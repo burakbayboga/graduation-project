@@ -16,8 +16,8 @@ public class BT {
 			GenerateSpotterBTv100();
 		}
 		else if(unit.unitType == "marine"){
-			//GenerateMarineBTv100();
-			GenerateBTv010();
+			GenerateMarineBTv100();
+			//GenerateBTv010();
 		}
 		else if(unit.unitType == "sniper"){
 			GenerateSniperBTv100();
@@ -237,6 +237,15 @@ public class BT {
 
 										BTNode a5 = new Diffuse(unit, emptySlot);
 										f4.children.Add(a5);
+
+										BTNode a10 = new MakeUnitInPosition(unit);
+										f4.children.Add(a10);
+
+				BTNode s9 = new SequenceNode(unit);
+				f0.children.Add(s9);
+
+						BTNode c9 = new IsCommandInPosition(unit);
+						s9.children.Add(c9);
 
 				BTNode s5 = new SequenceNode(unit);
 				f0.children.Add(s5);

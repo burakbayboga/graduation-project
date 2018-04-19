@@ -184,6 +184,7 @@ MonoBehaviour:
   - {fileID: 1900255919200374, guid: cc71e10e560b88b46bd9b4e16a0230e8, type: 2}
   - {fileID: 1730212354165352, guid: 30122abe687956540a6a33cfbf7bb40a, type: 2}
   - {fileID: 1855380833474114, guid: 49816ef3eacf9e54ebcfd40ed57b6bdd, type: 2}
+  - {fileID: 1573655748225042, guid: e62ad9bbbc248f046be675402628cadc, type: 2}
   odinPrefab: {fileID: 1179630930423322, guid: 0313f52ceba8da4478900198f598541d, type: 2}
   client: 0
   IS: 

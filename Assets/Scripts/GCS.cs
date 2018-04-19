@@ -42,6 +42,8 @@ public class GCS : NetworkBehaviour {
 	public Vector2 gridTarget;
 	public Vector3 rWTarget;
 	public bool sideTracked;
+	public bool diffusing;
+	public bool diffusionFail;
 
 	public List<GameObject> spottedUnits;
 	
@@ -61,7 +63,8 @@ public class GCS : NetworkBehaviour {
 		for(int i=0; i < splitTestWithoutParamater.Length; i++){
 			Debug.Log(splitTestWithoutParamater[i]);
 		}*/
-
+		diffusing = false;
+		diffusionFail = false;
 		gridTarget = new Vector2(-1f, -1f);
 		rWTarget = new Vector2(-1f, -1f);
 		sideTracked = false;

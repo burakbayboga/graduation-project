@@ -6,46 +6,67 @@ public class Diffuse : BTNode {
 
 	int emptySlot;
 	Vector3 currentPos;
-	List<Vector3> availableSpots;
-	Vector3 previousTarget;
+	Collider[] coverColliders;
+	List<CoverSpotCandidate> candidates;
+	Vector3 firstRandomPos;
 
 
 	public Diffuse(GCS _unit, int _emptySlot){
 		unit = _unit;
 		emptySlot = _emptySlot;
-		previousTarget = new Vector3(-1f, -1f, -1f);
-		availableSpots = new List<Vector3>();
+		candidates = new List<CoverSpotCandidate>();
+		firstRandomPos = new Vector3(-1f, -1f, -1f);
 	}
 
 	public override int Execute(){
-		return 0;
-		/*currentPos = unit.gameObject.transform.position;
-		if(currentPos == previousTarget){
+
+		if(unit.gameObject.transform.position == firstRandomPos){
+			firstRandomPos = new Vector3(-1f, -1f, -1f);
 			return 0;
 		}
-		availableSpots = GetAvailableSpots();
+		if(unit.diffusing && !unit.diffusionFail){
+			return 1;
+		}
+		if(unit.diffusing && unit.diffusionFail){
+			firstRandomPos = new Vector3(-1f, -1f, -1f);
+		}
+		
+		currentPos = unit.gameObject.transform.position;
+		coverColliders = GetColliders();
+		GetCandidates();
 
-		Vector3 targetPos = availableSpots[Random.Range(0, availableSpots.Count)];
-		previousTarget = targetPos;
-		unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
-		return 1;*/
+		if(candidates.Count == 0){
+			//FIX FIX FIX
+			//no cover to hold position case
+		}
+		Vector3 targetPos = candidates[Random.Range(0, candidates.Count)].pos;
+		if(firstRandomPos != new Vector3(-1f, -1f, -1f)){
+			return 1;
+		}
+		firstRandomPos = targetPos;
+		//unit.sideTracked = true;
+		unit.mover.GetMovingRW(new Vector2(targetPos.x, targetPos.y));
+		unit.diffusing = true;
+		return 1;
 
 	}
 
-	List<Vector3> GetAvailableSpots(){
+	Collider[] GetColliders(){
 		int layerMask = 1 << 10;
-		Collider[] coverColliders = Physics.OverlapSphere(currentPos, 10f, layerMask);
-		GOS currentCover;
-		//availableSpots.Clear();
-		List<Vector3> _availableSpots = new List<Vector3>();
+		Collider[] coverColliders = Physics.OverlapSphere(currentPos, unit.rangeCollider.radius, layerMask);
+		return coverColliders;
+	}
+	
+	void GetCandidates(){
+		candidates.Clear();
 		for(int i=0; i < coverColliders.Length; i++){
-			currentCover = coverColliders[i].gameObject.GetComponent<GOS>();
+			GOS currentCover = coverColliders[i].gameObject.GetComponent<GOS>();
 			for(int j=0; j < 8; j++){
-				if(currentCover.possibilities[j] == emptySlot){
-					_availableSpots.Add(currentCover.coordinates[j]);
+				if(currentCover.possibilities[j] == emptySlot || currentCover.possibilities[j] == unit.gameObject.GetInstanceID()){
+					CoverSpotCandidate newCandidate = new CoverSpotCandidate(currentCover.coordinates[j]);
+					candidates.Add(newCandidate);
 				}
 			}
 		}
-		return _availableSpots;
 	}
 }

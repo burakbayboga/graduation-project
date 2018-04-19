@@ -159,6 +159,7 @@ public class CommandHub : NetworkBehaviour {
 					player.GetComponent<CommandHub>().RpcSpendResource(45);
 				}
 				else{
+					errorText.GenerateErrorText();
 					return;
 				}
 			}
@@ -168,11 +169,23 @@ public class CommandHub : NetworkBehaviour {
 					player.GetComponent<CommandHub>().RpcSpendResource(15);
 				}
 				else{
+					errorText.GenerateErrorText();
+					return;
+				}
+			}
+			//replace bomber -> explosives
+			else if(ISUnits == "bomber"){
+				if(player.GetComponent<CommandHub>().resource >= 30){	
+					newUnit = Instantiate(deployableUnits[3], deployPosition, Quaternion.identity);
+					player.GetComponent<CommandHub>().RpcSpendResource(30);
+				}
+				else{
+					errorText.GenerateErrorText();
 					return;
 				}
 			}
 			else{
-				player.GetComponent<CommandHub>().RpcDisplayErrorText();
+				errorText.GenerateErrorText();
 				return;
 			}
 
@@ -204,6 +217,9 @@ public class CommandHub : NetworkBehaviour {
 				unitCommanded.currentTarget = new Vector3(targetX, targetY);
 				unitCommanded.originalTarget = new Vector3(targetX, targetY);
 			}
+		}
+		else{
+			errorText.GenerateErrorText();
 		}
 	}
 
