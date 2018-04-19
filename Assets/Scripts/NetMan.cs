@@ -42,7 +42,7 @@ public class NetMan : NetworkManager {
 	}*/
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId){
-		GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+		GameObject player = Instantiate(playerPrefab, new Vector3(20f, 50f, 0f), Quaternion.identity);
 		player.GetComponent<CommandHub>().client = nextPlayer;
 		player.GetComponent<CommandHub>().emptySlot = myID;
 		player.GetComponent<CommandHub>().conn = conn;

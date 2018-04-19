@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\CommandHub.cs" />
      <Compile Include="Assets\Scripts\CoverSpotCandidate.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
+     <Compile Include="Assets\Scripts\ErrorText.cs" />
      <Compile Include="Assets\Scripts\GCS.cs" />
      <Compile Include="Assets\Scripts\GOS.cs" />
      <Compile Include="Assets\Scripts\Ground.cs" />

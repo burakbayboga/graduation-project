@@ -19,6 +19,8 @@ public class CommandHub : NetworkBehaviour {
 	public NetworkConnection conn;
 	public GameObject _odinToSpawn;
 	public GameObject odin;
+	[SyncVar]
+	public int resource;
 
 	char MUI;
 	string ISUnits;
@@ -27,9 +29,12 @@ public class CommandHub : NetworkBehaviour {
 	int targetX;
 	int targetY;
 
+	public ErrorText errorText;
+
 
 	void Start(){
-		
+		resource = 100;
+		StartCoroutine(GainResource());
 		IS = "";
 		MUI = '*';
 		
@@ -40,6 +45,31 @@ public class CommandHub : NetworkBehaviour {
 			NetworkServer.Spawn(_odinToSpawn);
 		}
 		odin = GameObject.FindGameObjectsWithTag("odin")[0];
+	}
+
+	IEnumerator GainResource(){
+		while(true){
+			yield return new WaitForSeconds(5f);
+			if(resource >= 85){
+				resource = 100;
+			}
+			else{
+				resource += 15;
+			}
+		}
+	}
+
+	[ClientRpc]
+	public void RpcSpendResource(int amountSpent){
+		resource -= amountSpent;
+	}
+
+	[ClientRpc]
+	public void RpcDisplayErrorText(){
+		if(!isLocalPlayer){
+			return;
+		}
+		errorText.GenerateErrorText();
 	}
 
 	[Command]
@@ -86,7 +116,7 @@ public class CommandHub : NetworkBehaviour {
 		foreach(char c in Input.inputString){
 			if(c == '\r'){
 				ParseCommand();
-				CmdExecute(ISOpCode, ISUnits, targetX, targetY);
+				CmdExecute(ISOpCode, ISUnits, targetX, targetY, gameObject);
 				IS = "";
 				ISUnits = "";
 				ISOpCode = "";
@@ -107,27 +137,42 @@ public class CommandHub : NetworkBehaviour {
 	}
 
 
-
-
-
 	[Command]
-	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY){
+	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY, GameObject player){
 		if(ISOpCode == "deploy"){
 			GameObject newUnit;
 			Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
 			if(ISUnits == "marine"){
-				newUnit = Instantiate(deployableUnits[0], deployPosition, Quaternion.identity);
+				if(player.GetComponent<CommandHub>().resource >= 20){
+					newUnit = Instantiate(deployableUnits[0], deployPosition, Quaternion.identity);
+					player.GetComponent<CommandHub>().RpcSpendResource(20);
+					
+				}
+				else{
+					errorText.GenerateErrorText();
+					return;
+				}
 			}
-			/*else if(ISUnits == "marine1"){
-				newUnit = Instantiate(deployableUnits[1], new Vector3(targetX, targetY), Quaternion.identity);
-			}*/
 			else if(ISUnits == "sniper"){
-				newUnit = Instantiate(deployableUnits[1], deployPosition, Quaternion.identity);
+				if(player.GetComponent<CommandHub>().resource >= 45){
+					newUnit = Instantiate(deployableUnits[1], deployPosition, Quaternion.identity);
+					player.GetComponent<CommandHub>().RpcSpendResource(45);
+				}
+				else{
+					return;
+				}
 			}
 			else if(ISUnits == "spotter"){
-				newUnit = Instantiate(deployableUnits[2], deployPosition, Quaternion.identity);
+				if(player.GetComponent<CommandHub>().resource >= 15){	
+					newUnit = Instantiate(deployableUnits[2], deployPosition, Quaternion.identity);
+					player.GetComponent<CommandHub>().RpcSpendResource(15);
+				}
+				else{
+					return;
+				}
 			}
 			else{
+				player.GetComponent<CommandHub>().RpcDisplayErrorText();
 				return;
 			}
 
@@ -214,6 +259,7 @@ public class CommandHub : NetworkBehaviour {
 		if(!isLocalPlayer){
 			return;
 		}
+		GUI.Label(new Rect(80, 20, 100, 20), "Resources: " + resource);
 		GUI.TextField(new Rect(80, 400, 200, 20), IS);
 	}	
 }

@@ -49,7 +49,19 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
-		string deneme = "marine deploy 5,5 -3";
+		/*string testWithParameter = "marine deploy 5,5 -3";
+		string[] splitTestWithParamater = testWithParameter.Split(' ');
+		string testWithoutParameter = "marine deploy 5,5";
+		string[] splitTestWithoutParamater = testWithoutParameter.Split(' ');
+		Debug.Log(splitTestWithParamater.Length);
+		for(int i=0; i < splitTestWithParamater.Length; i++){
+			Debug.Log(splitTestWithParamater[i]);
+		}
+		Debug.Log(splitTestWithoutParamater.Length);
+		for(int i=0; i < splitTestWithoutParamater.Length; i++){
+			Debug.Log(splitTestWithoutParamater[i]);
+		}*/
+
 		gridTarget = new Vector2(-1f, -1f);
 		rWTarget = new Vector2(-1f, -1f);
 		sideTracked = false;
