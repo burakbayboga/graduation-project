@@ -10,6 +10,7 @@ public class Enemy {
 	public Vector3 position;
 	public bool shootable;
 	public bool canShootMe;
+	public int numberOfAlertTimers;
 
 	public Enemy(GameObject _unit){
 		unit = _unit;
@@ -17,6 +18,7 @@ public class Enemy {
 		position = unit.transform.position;
 		shootable = false;
 		canShootMe = false;
+		numberOfAlertTimers = 0;
 	}
 	
 }

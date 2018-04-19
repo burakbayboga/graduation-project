@@ -195,11 +195,23 @@ public class GCS : NetworkBehaviour {
 		int index = IndexOfEnemy(_enemyUnit);
 		if(index == -1){
 			Enemy newEnemy = new Enemy(_enemyUnit);
-			newEnemy.canShootMe = true;
+			//newEnemy.canShootMe = true;
 			enemies.Add(newEnemy);
+			StartCoroutine(AlertTimer(newEnemy));
 		}
 		else{
-			enemies[index].canShootMe = true;
+			//enemies[index].canShootMe = true;
+			StartCoroutine(AlertTimer(enemies[index]));
+		}
+	}
+
+	IEnumerator AlertTimer(Enemy enemy){
+		enemy.canShootMe = true;
+		enemy.numberOfAlertTimers++;
+		yield return new WaitForSeconds(4.0f);
+		enemy.numberOfAlertTimers--;
+		if(enemy.numberOfAlertTimers == 0){
+			enemy.canShootMe = false;
 		}
 	}
 
