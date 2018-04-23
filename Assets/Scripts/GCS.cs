@@ -208,6 +208,14 @@ public class GCS : NetworkBehaviour {
 		}
 	}
 
+	public void AlertByGunNoise(GameObject _enemyUnit){
+		int index = IndexOfEnemy(_enemyUnit);
+		if(index == -1){
+			Enemy newEnemy = new Enemy(_enemyUnit);
+			enemies.Add(newEnemy);
+		}
+	}
+
 	IEnumerator AlertTimer(Enemy enemy){
 		enemy.canShootMe = true;
 		enemy.numberOfAlertTimers++;

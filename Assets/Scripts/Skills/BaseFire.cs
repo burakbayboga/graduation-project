@@ -33,7 +33,7 @@ public class BaseFire : MonoBehaviour {
 		}
 		Collider[] alertedUnits = Physics.OverlapSphere(noiseOrigin, shooterSheet.gunNoiseReach, layerMask);
 		for(int i=0; i < alertedUnits.Length; i++){
-			alertedUnits[i].gameObject.GetComponent<GCS>().Alert(shooter);
+			alertedUnits[i].gameObject.GetComponent<GCS>().AlertByGunNoise(shooter);
 		}
 	}
 

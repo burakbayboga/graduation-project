@@ -53,6 +53,9 @@ public class ExplosiveShot : BaseFire {
 				break;
 			}
 		}
+		for(int i=0; i < unitsAffected.Length; i++){
+			unitsAffected[i].gameObject.GetComponent<GCS>().Alert(shooter);
+		}
 
 		AlertEnemiesByGunNoise(shooter, explosionPos);
 

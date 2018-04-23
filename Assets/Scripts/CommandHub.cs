@@ -115,8 +115,9 @@ public class CommandHub : NetworkBehaviour {
 
 		foreach(char c in Input.inputString){
 			if(c == '\r'){
-				ParseCommand();
-				CmdExecute(ISOpCode, ISUnits, targetX, targetY, gameObject);
+				//ParseCommand();
+				//CmdExecute(ISOpCode, ISUnits, targetX, targetY, gameObject);
+				CmdExecuteTest(IS, gameObject);
 				IS = "";
 				ISUnits = "";
 				ISOpCode = "";
@@ -135,6 +136,111 @@ public class CommandHub : NetworkBehaviour {
 			}
 		}
 	}
+
+	int UnitIndexInDeployable(string ISUnit){
+		if(ISUnit == "marine"){
+			return 0;
+		}
+		if(ISUnit == "sniper"){
+			return 1;
+		}
+		if(ISUnit == "spotter"){
+			return 2;
+		}
+		if(ISUnit == "bomber"){
+			return 3;
+		}
+		return -1;
+	}
+
+	int ParamMultipleDeploy(List<string> parameters){
+		for(int i=0; i < parameters.Count; i++){
+			if(parameters[i][0] == 'c'){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	List<string> ParseParameters(string[] splitIS){
+		List<string> parameters = new List<string>();
+		for(int i=3; i < splitIS.Length; i++){
+			string temp = "";
+			for(int j=1; j < splitIS[i].Length; j++){
+				temp += splitIS[i][j];
+			}
+			parameters.Add(temp);
+		}
+		return parameters;
+	}
+
+	int ResourceToSpend(int unitIndex, int resource){
+		if(unitIndex == 0 && resource >= 20){
+			return 20;
+		}
+		if(unitIndex == 1 && resource >= 45){
+			return 45;
+		}
+		if(unitIndex == 2 && resource >= 15){
+			return 15;
+		}
+		if(unitIndex == 3 && resource >= 30){
+			return 30;
+		}
+		return -1;
+	}
+
+	[Command]
+	void CmdExecuteTest(string IS, GameObject player){
+		string[] splitIS = IS.Split(' ');
+		List<string> parametersList = new List<string>();
+		if(splitIS.Length > 3){
+			parametersList = ParseParameters(splitIS);
+		}
+		string ISOpCode = splitIS[1];
+		string[] splitISTargetCoords = splitIS[2].Split(',');
+		int targetX = int.Parse(splitISTargetCoords[0]);
+		int targetY = int.Parse(splitISTargetCoords[1]);
+
+		if(ISOpCode == "deploy"){
+			string ISUnits = splitIS[0];
+			GameObject newUnit;
+			//PI: parameter index
+			int multipleDeployPI = ParamMultipleDeploy(parametersList);
+			int multipleDeployCount;
+			if(multipleDeployPI == -1){
+				multipleDeployCount = 1;
+			}
+			string multipleDeployString = "";
+			for(int i=1; i < parametersList[multipleDeployPI].Length; i++){
+				multipleDeployString += parametersList[multipleDeployPI][i];
+			}
+			multipleDeployCount = int.Parse(multipleDeployString);
+			int unitIndex = UnitIndexInDeployable(ISUnits);
+			//invalid unit string
+			if(unitIndex == -1){
+				errorText.GenerateErrorText();
+				return;
+			}
+			int spending = ResourceToSpend(unitIndex, player.GetComponent<CommandHub>().resource);
+			//not enough resource
+			if(spending == -1){
+				errorText.GenerateErrorText();
+				return;				
+			}
+			for(int i=0; i < multipleDeployCount; i++){
+				Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
+				newUnit = Instantiate(deployableUnits[unitIndex], deployPosition, Quaternion.identity);
+				player.GetComponent<CommandHub>().RpcSpendResource(spending);
+				newUnit.GetComponent<GCS>().client = client;
+				NetworkServer.Spawn(newUnit);
+			}
+		}
+	}
+
+
+
+
 
 
 	[Command]
