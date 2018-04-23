@@ -15,6 +15,7 @@ public class GridToRW : MonoBehaviour {
 		//layerMask -> red + blue
 		int layerMask = (1 << 8) | (1 << 9);
 		Collider[] units = Physics.OverlapBox(new Vector3(xStartRW + 2.5f, yStartRW + 2.5f, 0f), new Vector3(2.5f, 2.5f, 0f), Quaternion.identity, layerMask);
+		
 		AStarNode[,] map = mapHook.map;
 		for(int i=0; i < units.Length; i++){
 			map[(int)(units[i].transform.position.x), (int)(units[i].transform.position.y)].walkable = false;

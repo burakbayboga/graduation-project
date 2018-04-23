@@ -174,17 +174,17 @@ public class CommandHub : NetworkBehaviour {
 		return parameters;
 	}
 
-	int ResourceToSpend(int unitIndex, int resource){
-		if(unitIndex == 0 && resource >= 20){
+	int ResourceToSpend(int unitIndex, int resource, int multipleDeployCount){
+		if(unitIndex == 0 && resource >= 20*multipleDeployCount){
 			return 20;
 		}
-		if(unitIndex == 1 && resource >= 45){
+		if(unitIndex == 1 && resource >= 45*multipleDeployCount){
 			return 45;
 		}
-		if(unitIndex == 2 && resource >= 15){
+		if(unitIndex == 2 && resource >= 15*multipleDeployCount){
 			return 15;
 		}
-		if(unitIndex == 3 && resource >= 30){
+		if(unitIndex == 3 && resource >= 30*multipleDeployCount){
 			return 30;
 		}
 		return -1;
@@ -211,23 +211,27 @@ public class CommandHub : NetworkBehaviour {
 			if(multipleDeployPI == -1){
 				multipleDeployCount = 1;
 			}
-			string multipleDeployString = "";
-			for(int i=1; i < parametersList[multipleDeployPI].Length; i++){
-				multipleDeployString += parametersList[multipleDeployPI][i];
+			else{
+				string multipleDeployString = "";
+				for(int i=1; i < parametersList[multipleDeployPI].Length; i++){
+					multipleDeployString += parametersList[multipleDeployPI][i];
+				}
+				multipleDeployCount = int.Parse(multipleDeployString);
 			}
-			multipleDeployCount = int.Parse(multipleDeployString);
 			int unitIndex = UnitIndexInDeployable(ISUnits);
 			//invalid unit string
 			if(unitIndex == -1){
 				errorText.GenerateErrorText();
 				return;
 			}
-			int spending = ResourceToSpend(unitIndex, player.GetComponent<CommandHub>().resource);
+			int spendingPerUnit = ResourceToSpend(unitIndex, player.GetComponent<CommandHub>().resource, multipleDeployCount);
 			//not enough resource
-			if(spending == -1){
+			if(spendingPerUnit == -1){
 				errorText.GenerateErrorText();
 				return;				
 			}
+			StartCoroutine(DeployCoroutine(unitIndex, player, spendingPerUnit, multipleDeployCount, targetX, targetY));
+			/*
 			for(int i=0; i < multipleDeployCount; i++){
 				Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
 				newUnit = Instantiate(deployableUnits[unitIndex], deployPosition, Quaternion.identity);
@@ -235,7 +239,31 @@ public class CommandHub : NetworkBehaviour {
 				newUnit.GetComponent<GCS>().client = client;
 				NetworkServer.Spawn(newUnit);
 			}
+			*/
 		}
+	}
+
+	IEnumerator DeployCoroutine(int unitIndex, GameObject player, int spendingPerUnit, int unitCount, int gridX, int gridY){
+		for(int i=0; i < unitCount; i++){
+			Vector3 deployPosition = GridToRW.GetGridToRW(gridX, gridY, odin.GetComponent<AStarMap>());
+			CmdDeployUnit(unitIndex, player, deployPosition, spendingPerUnit);
+			yield return new WaitForSeconds(0.2f);
+			//yield return null;
+		}
+	}
+
+	[Command]
+	void CmdDeployUnit(int unitIndex, GameObject player, Vector3 deployPosition, int spendingPerUnit){
+		GameObject newUnit = Instantiate(deployableUnits[unitIndex], deployPosition, Quaternion.identity);
+		player.GetComponent<CommandHub>().RpcSpendResource(spendingPerUnit);
+		newUnit.GetComponent<GCS>().client = client;
+		if(client == 0){
+			newUnit.layer = 8;
+		}
+		else{
+			newUnit.layer = 9;
+		}
+		NetworkServer.Spawn(newUnit);
 	}
 
 
@@ -252,7 +280,6 @@ public class CommandHub : NetworkBehaviour {
 				if(player.GetComponent<CommandHub>().resource >= 20){
 					newUnit = Instantiate(deployableUnits[0], deployPosition, Quaternion.identity);
 					player.GetComponent<CommandHub>().RpcSpendResource(20);
-					
 				}
 				else{
 					errorText.GenerateErrorText();
