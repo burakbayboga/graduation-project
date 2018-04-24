@@ -235,11 +235,14 @@ public class BT {
 												BTNode a4 = new GoTowardsTargetLocation(unit);
 												s4.children.Add(a4);
 
-										BTNode a5 = new Diffuse(unit, emptySlot);
-										f4.children.Add(a5);
+										BTNode s10 = new SequenceNode(unit);
+										f4.children.Add(s10);
 
-										BTNode a10 = new MakeUnitInPosition(unit);
-										f4.children.Add(a10);
+												BTNode a5 = new Diffuse(unit, emptySlot);
+												s10.children.Add(a5);
+
+												BTNode a10 = new MakeUnitInPosition(unit);
+												s10.children.Add(a10);
 
 				BTNode s9 = new SequenceNode(unit);
 				f0.children.Add(s9);

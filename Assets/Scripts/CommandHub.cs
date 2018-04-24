@@ -197,13 +197,14 @@ public class CommandHub : NetworkBehaviour {
 		if(splitIS.Length > 3){
 			parametersList = ParseParameters(splitIS);
 		}
+		string ISUnits = splitIS[0];
 		string ISOpCode = splitIS[1];
 		string[] splitISTargetCoords = splitIS[2].Split(',');
 		int targetX = int.Parse(splitISTargetCoords[0]);
 		int targetY = int.Parse(splitISTargetCoords[1]);
 
 		if(ISOpCode == "deploy"){
-			string ISUnits = splitIS[0];
+			
 			GameObject newUnit;
 			//PI: parameter index
 			int multipleDeployPI = ParamMultipleDeploy(parametersList);
@@ -231,17 +232,25 @@ public class CommandHub : NetworkBehaviour {
 				return;				
 			}
 			StartCoroutine(DeployCoroutine(unitIndex, player, spendingPerUnit, multipleDeployCount, targetX, targetY));
-			/*
-			for(int i=0; i < multipleDeployCount; i++){
-				Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
-				newUnit = Instantiate(deployableUnits[unitIndex], deployPosition, Quaternion.identity);
-				player.GetComponent<CommandHub>().RpcSpendResource(spending);
-				newUnit.GetComponent<GCS>().client = client;
-				NetworkServer.Spawn(newUnit);
+		}
+		else if(ISOpCode == "move"){
+			List<int> unitIDs = ParseISUnits(ISUnits);
+			for(int i=0; i < unitIDs.Count; i++){
+				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
+				unitCommanded.currentCommand = ISOpCode;
+				unitCommanded.gridTarget = new Vector2(targetX, targetY);
 			}
-			*/
+		}
+		else if(ISOpCode == "hold"){
+			List<int> unitIDs = ParseISUnits(ISUnits);
+			for(int i=0; i < unitIDs.Count; i++){
+				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
+				unitCommanded.currentCommand = "hold_position";
+				unitCommanded.gridTarget = new Vector2(targetX, targetY);
+			}
 		}
 	}
+
 
 	IEnumerator DeployCoroutine(int unitIndex, GameObject player, int spendingPerUnit, int unitCount, int gridX, int gridY){
 		for(int i=0; i < unitCount; i++){
@@ -265,11 +274,6 @@ public class CommandHub : NetworkBehaviour {
 		}
 		NetworkServer.Spawn(newUnit);
 	}
-
-
-
-
-
 
 	[Command]
 	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY, GameObject player){

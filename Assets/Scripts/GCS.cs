@@ -34,6 +34,8 @@ public class GCS : NetworkBehaviour {
 	public List<Enemy> enemies;
 	public string currentCommand;
 	public TextMesh personCountText;
+	public TextMesh deployedIndexText;
+
 	public bool localUnit;
 
 	public Vector3 currentTarget;
@@ -71,8 +73,11 @@ public class GCS : NetworkBehaviour {
 		GetComponent<Renderer>().sharedMaterial = materials[client];
 		odin = GameObject.FindGameObjectsWithTag("odin")[0];
 		mover = GetComponent<Mover>();
-		personCountText = GetComponentInChildren<TextMesh>();
+		//personCountText = GetComponentInChildren<TextMesh>();
+		personCountText = transform.GetChild(1).GetComponent<TextMesh>();
 		personCountText.text = personCount.ToString();
+		deployedIndexText = transform.GetChild(2).GetComponent<TextMesh>();
+
 
 		GameObject[] tempHubs = GameObject.FindGameObjectsWithTag("Player");
 		commandHub = tempHubs[client].GetComponent<CommandHub>();
@@ -85,7 +90,7 @@ public class GCS : NetworkBehaviour {
 		}
 		
 		commandHub.deployedUnits.Add(gameObject);
-		gameObject.layer = client + 8;
+		//gameObject.layer = client + 8;
 		enemies = new List<Enemy>();
 		spottedUnits = new List<GameObject>();
 		currentCommand = "idle";
@@ -126,6 +131,7 @@ public class GCS : NetworkBehaviour {
 				}
 			}
 		}
+		commandHub.deployedUnits.Remove(gameObject);
 		if(isServer){
 			NetworkServer.Destroy(gameObject);
 		}
