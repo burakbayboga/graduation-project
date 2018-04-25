@@ -14,12 +14,10 @@ public class GoTowardsTargetLocation : BTNode {
 	public override int Execute(){
 		//first execute
 		if(unit.rWTarget.x == -1f || unit.sideTracked){
-			unit.mover.GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
 			unit.sideTracked = false;
+			unit.mover.GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
 			return 1;
 		}
 		return 0;
-
 	}
-	
 }

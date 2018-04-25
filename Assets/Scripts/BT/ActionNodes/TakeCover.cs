@@ -30,10 +30,6 @@ public class TakeCover : BTNode {
 		currentPos = unit.gameObject.transform.position;
 		coverColliders = GetColliders();
 		GetCandidates();
-		/*for(int i=0; i < candidates.Count; i++){
-			Debug.Log(candidates[i].pos);
-		}
-		return 0;*/
 
 		//no possible cover
 		if(candidates.Count == 0){
@@ -53,11 +49,13 @@ public class TakeCover : BTNode {
 
 		//sort candidates for chaotic decision making
 		//SortCandidatesByCost();
+		//get lowest cost candidate for deterministic behaviour
 		Vector3 targetPos = GetLowestCostCandidate();
 		//Debug.Log(targetPos);
 		if(targetPos == previousTarget){
 			return 0;
 		}
+		Debug.Log(targetPos);
 		previousTarget = targetPos;
 		//unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
 		//unit.mover.RunForCover((int)(targetPos.x), (int)(targetPos.y));
@@ -103,7 +101,7 @@ public class TakeCover : BTNode {
 
 	Collider[] GetColliders(){
 		int layerMask = 1 << 10;
-		Collider[] coverColliders = Physics.OverlapSphere(currentPos, unit.rangeCollider.radius, layerMask);
+		Collider[] coverColliders = Physics.OverlapSphere(currentPos, 25f, layerMask);
 		//Array.Sort(coverColliders, (c1, c2) => ((currentPos - c1.gameObject.transform.position).sqrMagnitude).CompareTo((currentPos - c2.gameObject.transform.position).sqrMagnitude));
 		return coverColliders;
 	}

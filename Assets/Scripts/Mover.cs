@@ -56,6 +56,10 @@ public class Mover : MonoBehaviour {
 
 
 	public void GetMovingRW(Vector2 target){
+		if(!unit.sideTracked){
+			unit.rWTarget = target;
+		}
+		
 		ultTarget = target;
 		/*if(unit.rWTarget.x == -1f){
 			unit.rWTarget = new Vector3(ultTarget.x, ultTarget.y);
@@ -73,23 +77,17 @@ public class Mover : MonoBehaviour {
 			//FIX ME PLS
 			Debug.Log("grid full");
 		}
-		unit.rWTarget = new Vector3(tempTarget.x, tempTarget.y);
+		//unit.rWTarget = new Vector3(tempTarget.x, tempTarget.y);
 		GetMovingRW(tempTarget);
-		//moveCoroutine = StartCoroutine(MoveCoroutine(/*_x, _y*/));
-		//GetPath(ultTarget);
-		//StartMovement();
 	}
 
 	public void RunForCover(int _x, int _y){
 		ultTarget = new Vector2(_x, _y);
 		GetPath(ultTarget);
-		//StartMovement();
+		
 	}
 
-	void StartMovement(){
-		Override();
-		moveCoroutine = StartCoroutine(MoveCoroutine());
-	}
+
 
 	void GetPath(Vector2 targetPos){
 		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), targetPos); 

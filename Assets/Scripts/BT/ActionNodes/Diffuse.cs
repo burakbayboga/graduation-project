@@ -38,8 +38,10 @@ public class Diffuse : BTNode {
 		if(candidates.Count == 0){
 			//FIX FIX FIX
 			//no cover to hold position case
+			//OH GOD PLS FIX
 		}
 		Vector3 targetPos = candidates[Random.Range(0, candidates.Count)].pos;
+
 		if(firstRandomPos != new Vector3(-1f, -1f, -1f)){
 			return 1;
 		}
