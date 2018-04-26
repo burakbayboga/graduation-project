@@ -364,10 +364,10 @@ MonoBehaviour:
   mover: {fileID: 0}
   odin: {fileID: 0}
   commandHub: {fileID: 0}
-  enemyCommandHub: {fileID: 0}
   enemies: []
   currentCommand: 
-  personCountText: {fileID: 0}
+  personCountText: {fileID: 102359523438393366}
+  deployedIndexText: {fileID: 102521882003811896}
   localUnit: 0
   currentTarget: {x: 0, y: 0, z: 0}
   originalTarget: {x: 0, y: 0, z: 0}

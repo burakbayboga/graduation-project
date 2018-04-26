@@ -15,7 +15,8 @@ public class Mover : MonoBehaviour {
 	
 
 	public AStarNode[,] map;
-	Stack<Vector2> path;
+	public List<Vector2> path;
+	Stack<Vector2> pathInStack;
 	bool speedCooldown;
 
 	Vector2 ultTarget;
@@ -28,7 +29,8 @@ public class Mover : MonoBehaviour {
 		coroutineRunning = false;
 		pathFinder = new AStar();
 		map = unit.odin.GetComponent<AStarMap>().map;
-		path = new Stack<Vector2>();
+		path = new List<Vector2>();
+		pathInStack = new Stack<Vector2>();
 		pathFinder.map = map;
 		speedCooldown = false;
 		StartCoroutine(InfiniteMoveCoroutine());
@@ -90,13 +92,21 @@ public class Mover : MonoBehaviour {
 
 
 	void GetPath(Vector2 targetPos){
-		path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), targetPos); 
+		pathInStack = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), targetPos); 
+		path.Clear();
+		while(pathInStack.Count > 0){
+			path.Add(pathInStack.Pop());
+		}
 	}
 
 	IEnumerator InfiniteMoveCoroutine(){
+		Vector2 temp;
 		while(true){
 			if(path.Count > 0){
-				MoveObject(path.Pop());
+				//MoveObject(path.Pop());
+				temp = path[0];
+				path.RemoveAt(0);
+				MoveObject(temp);
 			}
 
 			yield return new WaitForSeconds(moveSpeed);
@@ -112,7 +122,7 @@ public class Mover : MonoBehaviour {
 		//path = pathFinder.FindPath(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(_x, _y));
 		//}
 		while(path.Count > 0){
-			MoveObject(path.Pop());
+			//MoveObject(path.Pop());
 			yield return new WaitForSeconds(moveSpeed);
 		}
 		coroutineRunning = false;
@@ -123,15 +133,18 @@ public class Mover : MonoBehaviour {
 		//add case where already in target grid
 		//get new target coord inside the target grid
 		Vector3 currentPosition = unit.transform.position;
-		if(currentPosition.x >= unit.gridTarget.x*5f && currentPosition.x <= unit.gridTarget.x*5f+5f
-			&& currentPosition.y >= unit.gridTarget.y*5f && currentPosition.y <= unit.gridTarget.y*5f+5f){
+		if((currentPosition - unit.rWTarget).magnitude <= 8f/*currentPosition.x >= unit.gridTarget.x*5f && currentPosition.x <= unit.gridTarget.x*5f+5f
+			&& currentPosition.y >= unit.gridTarget.y*5f && currentPosition.y <= unit.gridTarget.y*5f+5f*/){
+			//Debug.Log("reached target grid and got stuck");
+			//Debug.Log(unit.diffusing);
 			if(unit.diffusing){
+				Debug.Log("diffusionFail = true");
+				//Debug.Log("diffusing + diffusion fail");
 				unit.diffusionFail = true;
 			}
 			else{
 				GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));
 			}
-			
 			return;
 		}
 		//get new path to same real world coordinate
@@ -182,7 +195,8 @@ public class Mover : MonoBehaviour {
 			}
 		}
 		if(crash){
-			path.Push(target);
+			//path.Push(target);
+			path.Insert(0, target);
 			StartReplanningTimer();
 			return;
 		}

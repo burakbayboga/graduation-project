@@ -19,15 +19,21 @@ public class Diffuse : BTNode {
 	}
 
 	public override int Execute(){
-
+		Debug.Log("debug2");
 		if(unit.gameObject.transform.position == firstRandomPos){
 			firstRandomPos = new Vector3(-1f, -1f, -1f);
+			unit.diffusing = false;
 			return 0;
 		}
+		Debug.Log("debug");
 		if(unit.diffusing && !unit.diffusionFail){
+			Debug.Log("diffusing + NOT diffusionFail");
 			return 1;
 		}
+		Debug.Log("diffusing: " + unit.diffusing + " diffusionFail: " + unit.diffusionFail);
 		if(unit.diffusing && unit.diffusionFail){
+			Debug.Log("diffusing + diffusionFail");
+			unit.diffusionFail = false;
 			firstRandomPos = new Vector3(-1f, -1f, -1f);
 		}
 		

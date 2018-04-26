@@ -9,6 +9,9 @@ public class AwayFromTargetLocation : BTNode {
 	}
 	
 	public override int Execute(){
+		if(unit.diffusing){
+			return -1;
+		}
 		if((unit.rWTarget - unit.gameObject.transform.position).sqrMagnitude >= 25f){
 			return 0;
 		}

@@ -30,7 +30,7 @@ public class GCS : NetworkBehaviour {
 	public Mover mover;
 	public GameObject odin;
 	public CommandHub commandHub;
-	public CommandHub enemyCommandHub;
+
 	public List<Enemy> enemies;
 	public string currentCommand;
 	public TextMesh personCountText;
@@ -53,18 +53,6 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
-		/*string testWithParameter = "marine deploy 5,5 -3";
-		string[] splitTestWithParamater = testWithParameter.Split(' ');
-		string testWithoutParameter = "marine deploy 5,5";
-		string[] splitTestWithoutParamater = testWithoutParameter.Split(' ');
-		Debug.Log(splitTestWithParamater.Length);
-		for(int i=0; i < splitTestWithParamater.Length; i++){
-			Debug.Log(splitTestWithParamater[i]);
-		}
-		Debug.Log(splitTestWithoutParamater.Length);
-		for(int i=0; i < splitTestWithoutParamater.Length; i++){
-			Debug.Log(splitTestWithoutParamater[i]);
-		}*/
 		diffusing = false;
 		diffusionFail = false;
 		gridTarget = new Vector2(-1f, -1f);
@@ -74,29 +62,18 @@ public class GCS : NetworkBehaviour {
 		odin = GameObject.FindGameObjectsWithTag("odin")[0];
 		mover = GetComponent<Mover>();
 		//personCountText = GetComponentInChildren<TextMesh>();
-		personCountText = transform.GetChild(1).GetComponent<TextMesh>();
+		//personCountText = transform.GetChild(1).GetComponent<TextMesh>();
 		personCountText.text = personCount.ToString();
-		deployedIndexText = transform.GetChild(2).GetComponent<TextMesh>();
+		//deployedIndexText = transform.GetChild(2).GetComponent<TextMesh>();
 
-
-		GameObject[] tempHubs = GameObject.FindGameObjectsWithTag("Player");
-		commandHub = tempHubs[client].GetComponent<CommandHub>();
-		
-		if(client == 0){
-			enemyCommandHub = tempHubs[1].GetComponent<CommandHub>();
-		}
-		else{
-			enemyCommandHub = tempHubs[0].GetComponent<CommandHub>();
-		}
-		
+		commandHub = GameObject.FindGameObjectsWithTag("Player")[client].GetComponent<CommandHub>();		
 		commandHub.deployedUnits.Add(gameObject);
-		//gameObject.layer = client + 8;
 		enemies = new List<Enemy>();
 		spottedUnits = new List<GameObject>();
 		currentCommand = "idle";
 		localUnit = commandHub.isLocalPlayer;
 		
-		if(!isServer/*localUnit*/){
+		if(!isServer){
 			return;
 		}
 		
@@ -108,12 +85,12 @@ public class GCS : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcLickWound(int newPersonCount){
-		//if(personCount <= 0){
-		//	HandleSelfDeath();
-		//}
-		//else{
-			personCountText.text = newPersonCount.ToString();
-		//}
+		personCountText.text = newPersonCount.ToString();
+	}
+
+	[ClientRpc]
+	public void RpcUpdateUnitIndex(int index){
+		deployedIndexText.text = index.ToString();
 	}
 
 	[ClientRpc]
@@ -137,24 +114,6 @@ public class GCS : NetworkBehaviour {
 		}
 	}
 
-	/*[ClientRpc]
-	public void RpcApplyStress(float incomingStress){
-		currentStress += incomingStress * ((100 - stressResilience) / 100); 
-	}*/	
-
-	/*public void LickWound(){
-		if(personCount <= 0){
-			HandleSelfDeath();
-		}
-		else{
-			personCountText.text = personCount.ToString();
-		}
-	}*/
-
-
-
-	
-
 	void InitBT(){
 		BT bT = new BT();
 		bT.unit = this;
@@ -172,7 +131,6 @@ public class GCS : NetworkBehaviour {
 
 	IEnumerator ShootCoroutine(){
 		while(true){
-			//GetComponent<Renderer>().material.color = Color.black; 
 			if(enemies.Count > 0){
 				baseFire.Fire(gameObject);
 			}

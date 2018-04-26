@@ -21,6 +21,7 @@ public class CommandHub : NetworkBehaviour {
 	public GameObject odin;
 	[SyncVar]
 	public int resource;
+	public bool resourceCheat;
 
 	char MUI;
 	string ISUnits;
@@ -34,6 +35,7 @@ public class CommandHub : NetworkBehaviour {
 
 	void Start(){
 		resource = 100;
+		resourceCheat = false;
 		StartCoroutine(GainResource());
 		IS = "";
 		MUI = '*';
@@ -50,7 +52,7 @@ public class CommandHub : NetworkBehaviour {
 	IEnumerator GainResource(){
 		while(true){
 			yield return new WaitForSeconds(5f);
-			if(resource >= 85){
+			if(resource >= 85 && !resourceCheat){
 				resource = 100;
 			}
 			else{
@@ -62,6 +64,12 @@ public class CommandHub : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSpendResource(int amountSpent){
 		resource -= amountSpent;
+	}
+
+	[ClientRpc]
+	public void RpcResourceCheat(){
+		resource = 10000;
+		resourceCheat = true;
 	}
 
 	[ClientRpc]
@@ -80,6 +88,13 @@ public class CommandHub : NetworkBehaviour {
 		}
 		else{
 			unitHit.GetComponent<GCS>().RpcHandleSelfDeath();
+		}
+	}
+
+	[Command]
+	public void CmdUpdateDeployedUnitIndexes(){
+		for(int i=0; i < deployedUnits.Count; i++){
+			deployedUnits[i].GetComponent<GCS>().RpcUpdateUnitIndex(i);
 		}
 	}
 
@@ -192,6 +207,10 @@ public class CommandHub : NetworkBehaviour {
 
 	[Command]
 	void CmdExecuteTest(string IS, GameObject player){
+		if(IS == "kingnothing"){
+			player.GetComponent<CommandHub>().RpcResourceCheat();
+			return;
+		}
 		string[] splitIS = IS.Split(' ');
 		List<string> parametersList = new List<string>();
 		if(splitIS.Length > 3){
@@ -266,6 +285,7 @@ public class CommandHub : NetworkBehaviour {
 		GameObject newUnit = Instantiate(deployableUnits[unitIndex], deployPosition, Quaternion.identity);
 		player.GetComponent<CommandHub>().RpcSpendResource(spendingPerUnit);
 		newUnit.GetComponent<GCS>().client = client;
+
 		if(client == 0){
 			newUnit.layer = 8;
 		}
@@ -273,6 +293,7 @@ public class CommandHub : NetworkBehaviour {
 			newUnit.layer = 9;
 		}
 		NetworkServer.Spawn(newUnit);
+		newUnit.GetComponent<GCS>().RpcUpdateUnitIndex(deployedUnits.Count);
 	}
 
 	[Command]
