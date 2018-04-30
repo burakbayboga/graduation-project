@@ -148,4 +148,4 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.Spa
 3cb99a10ea458e24df1fcf6cca035e54 Assembly-CSharp.dll:.GOS
 7cf98ef8aa276e5d124efa996ee0fe2b Assembly-CSharp.dll:.CoverSpotsCollider
 7b427d622c9373342a67774640c02dc6 Assembly-CSharp.dll:.AStarMap
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Mover
+ad2ebea734c7175e1e2edef336175309 Assembly-CSharp.dll:.Mover

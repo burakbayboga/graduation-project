@@ -11,13 +11,11 @@ public class BT {
 
 	public void Initialize(){
 
-		//GenerateBTv010();
 		if(unit.unitType == "spotter"){
 			GenerateSpotterBTv100();
 		}
 		else if(unit.unitType == "marine"){
 			GenerateMarineBTv100();
-			//GenerateBTv010();
 		}
 		else if(unit.unitType == "sniper"){
 			GenerateSniperBTv100();
@@ -65,7 +63,7 @@ public class BT {
 										BTNode c3 = new BeingShotAt(unit);
 										s3.children.Add(c3);
 
-										BTNode sf0 = new CSF0(unit);
+										BTNode sf0 = new CSF0(unit, 50f);
 										s3.children.Add(sf0);
 
 											BTNode a1 = new RunToTheHills(unit);
@@ -96,8 +94,141 @@ public class BT {
 	}
 
 	void GenerateMarineBTv100(){
-		//temporary generic bt
-		GenerateBTv010();
+		BTNode f0 = new FallbackNode(unit);
+
+				BTNode s0 = new SequenceNode(unit);
+				f0.children.Add(s0);
+
+						BTNode c0 = new IsCommandIdle(unit);
+						s0.children.Add(c0);
+
+						BTNode c1 = new BeingShotAt(unit);
+						s0.children.Add(c1);
+
+						BTNode sf0 = new RSF0(unit);
+						s0.children.Add(sf0);
+
+								BTNode f1 = new FallbackNode(unit);
+								sf0.children.Add(f1);
+
+										BTNode a0 = new TakeCover(unit, emptySlot);
+										f1.children.Add(a0);
+
+										BTNode a1 = new Charge(unit);
+										f1.children.Add(a1);
+
+								BTNode a2 = new Charge(unit);
+								sf0.children.Add(a2);
+
+				BTNode s1 = new SequenceNode(unit);
+				f0.children.Add(s1);
+
+						BTNode c2 = new IsCommandMove(unit);
+						s1.children.Add(c2);
+
+						BTNode f2 = new FallbackNode(unit);
+						s1.children.Add(f2);
+
+								BTNode s2 = new SequenceNode(unit);
+								f2.children.Add(s2);
+
+										BTNode c3 = new BeingShotAt(unit);
+										s2.children.Add(c3);
+
+										BTNode sf1 = new CSF0(unit, 70f);
+										s2.children.Add(sf1);
+
+												BTNode a3 = new RunToTheHills(unit);
+												sf1.children.Add(a3);
+
+												BTNode f3 = new FallbackNode(unit);
+												sf1.children.Add(f3);
+
+														BTNode s3 = new SequenceNode(unit);
+														f3.children.Add(s3);
+
+																BTNode c4 = new Overwhelmed(unit);
+																s3.children.Add(c4);
+
+																BTNode f4 = new FallbackNode(unit);
+																s3.children.Add(f4);
+
+																		BTNode a4 = new TakeCover(unit, emptySlot);
+																		f4.children.Add(a4);
+
+																		BTNode a5 = new RunToTheHills(unit);
+																		f4.children.Add(a5);
+
+														BTNode a6 = new PushForward(unit);
+														f3.children.Add(a6);
+
+								BTNode s4 = new SequenceNode(unit);
+								f2.children.Add(s4);
+
+										BTNode w0 = new InverterNode(unit);
+										s4.children.Add(w0);
+
+												BTNode c5 = new AtTargetLocation(unit);
+												w0.children.Add(c5);
+
+										BTNode a7 = new GoTowardsTargetLocation(unit);
+										s4.children.Add(a7);
+
+								BTNode a8 = new MakeUnitIdle(unit);
+								f2.children.Add(a8);
+
+				BTNode s5 = new SequenceNode(unit);
+				f0.children.Add(s5);
+
+						BTNode c6 = new IsCommandHoldPosition(unit);
+						s5.children.Add(c6);
+
+						BTNode f5 = new FallbackNode(unit);
+						s5.children.Add(f5);
+
+								BTNode s6 = new SequenceNode(unit);
+								f5.children.Add(s6);
+
+										BTNode f6 = new FallbackNode(unit);
+										s6.children.Add(f6);
+
+												BTNode c7 = new BeingShotAt(unit);
+												f6.children.Add(c7);
+
+												BTNode c8 = new IsEnemyNearby(unit);
+												f6.children.Add(c8);
+
+										BTNode f7 = new FallbackNode(unit);
+										s6.children.Add(f7);
+
+												BTNode a9 = new TakeCover(unit, emptySlot);
+												f7.children.Add(a9);
+
+												BTNode a10 = new PushForward(unit);
+												f7.children.Add(a10);
+
+								BTNode s7 = new SequenceNode(unit);
+								f5.children.Add(s7);
+
+										BTNode w1 = new InverterNode(unit);
+										s7.children.Add(w1);
+
+												BTNode c9 = new AtTargetLocation(unit);
+												w1.children.Add(c9);
+
+										BTNode a11 = new GoTowardsTargetLocation(unit);
+										s7.children.Add(a11);
+
+								BTNode a12 = new Diffuse(unit, emptySlot);
+								f5.children.Add(a12);
+
+				BTNode s8 = new SequenceNode(unit);
+				f0.children.Add(s8);
+
+						BTNode c10 = new IsCommandInPosition(unit);
+						s8.children.Add(c10);
+
+		root = f0;
 	}
 
 	void GenerateSpotterBTv100(){

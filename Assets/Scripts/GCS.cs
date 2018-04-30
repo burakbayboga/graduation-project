@@ -19,6 +19,7 @@ public class GCS : NetworkBehaviour {
 	public float stressResilience;
 	[SyncVar]
 	public float currentStress;
+	public string stressResolution;
 	[SyncVar]
 	public int personCount;
 	public bool hiding;
@@ -46,6 +47,8 @@ public class GCS : NetworkBehaviour {
 	public bool sideTracked;
 	public bool diffusing;
 	public bool diffusionFail;
+	public bool charging;
+	public bool chargeFail;
 
 	public List<GameObject> spottedUnits;
 	
@@ -53,8 +56,11 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
+		stressResolution = "calm";
 		diffusing = false;
 		diffusionFail = false;
+		charging = false;
+		chargeFail = false;
 		gridTarget = new Vector2(-1f, -1f);
 		rWTarget = new Vector2(-1f, -1f);
 		sideTracked = false;
@@ -147,6 +153,12 @@ public class GCS : NetworkBehaviour {
 		}
 	}
 
+	public void UpdateEnemyPositions(){
+		for(int i=0; i < enemies.Count; i++){
+			enemies[i].position = enemies[i].unit.transform.position;
+		}
+	}
+
 	public void ClearSpottedUnitsList(){
 		for(int i=0; i < spottedUnits.Count; i++){
 			if(spottedUnits[i] == null){
@@ -162,12 +174,10 @@ public class GCS : NetworkBehaviour {
 		int index = IndexOfEnemy(_enemyUnit);
 		if(index == -1){
 			Enemy newEnemy = new Enemy(_enemyUnit);
-			//newEnemy.canShootMe = true;
 			enemies.Add(newEnemy);
 			StartCoroutine(AlertTimer(newEnemy));
 		}
 		else{
-			//enemies[index].canShootMe = true;
 			StartCoroutine(AlertTimer(enemies[index]));
 		}
 	}

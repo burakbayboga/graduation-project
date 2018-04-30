@@ -40,7 +40,7 @@ public class TakeCover : BTNode {
 			candidates[i].ApplyDistanceFactor(currentPos, unit.moveSpeed);
 		}
 		unit.ClearEnemyList();
-		UpdateEnemyPositions();
+		unit.UpdateEnemyPositions();
 		List<Enemy> unitsThatCanShootMe = new List<Enemy>();
 		unitsThatCanShootMe = GetUnitsThatCanShootMe();
 		for(int i=0; i < candidates.Count; i++){
@@ -51,15 +51,15 @@ public class TakeCover : BTNode {
 		//SortCandidatesByCost();
 		//get lowest cost candidate for deterministic behaviour
 		Vector3 targetPos = GetLowestCostCandidate();
-		//Debug.Log(targetPos);
+
 		if(targetPos == previousTarget){
 			return 0;
 		}
 		Debug.Log(targetPos);
 		previousTarget = targetPos;
-		//unit.mover.GetMoving((int)(targetPos.x), (int)(targetPos.y));
-		//unit.mover.RunForCover((int)(targetPos.x), (int)(targetPos.y));
-		unit.sideTracked = true;
+		if(unit.currentCommand != "InPosition"){
+			unit.sideTracked = true;
+		}
 		unit.mover.GetMovingRW(new Vector2(targetPos.x, targetPos.y));
 		return 1;
 
@@ -80,12 +80,6 @@ public class TakeCover : BTNode {
 
 	void SortCandidatesByCost(){
 		candidates.Sort((c1, c2) => c1.cost.CompareTo(c2.cost));
-	}
-
-	void UpdateEnemyPositions(){
-		for(int i=0; i < unit.enemies.Count; i++){
-			unit.enemies[i].position = unit.enemies[i].unit.transform.position;
-		}
 	}
 
 	List<Enemy> GetUnitsThatCanShootMe(){

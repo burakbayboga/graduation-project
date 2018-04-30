@@ -21,7 +21,9 @@ public class CommandHub : NetworkBehaviour {
 	public GameObject odin;
 	[SyncVar]
 	public int resource;
+
 	public bool resourceCheat;
+	public bool deployPositionCheat;
 
 	char MUI;
 	string ISUnits;
@@ -36,6 +38,7 @@ public class CommandHub : NetworkBehaviour {
 	void Start(){
 		resource = 100;
 		resourceCheat = false;
+		deployPositionCheat = false;
 		StartCoroutine(GainResource());
 		IS = "";
 		MUI = '*';
@@ -70,6 +73,11 @@ public class CommandHub : NetworkBehaviour {
 	public void RpcResourceCheat(){
 		resource = 10000;
 		resourceCheat = true;
+	}
+
+	[ClientRpc]
+	public void RpcDeployPositionCheat(){
+		deployPositionCheat = true;
 	}
 
 	[ClientRpc]
@@ -211,6 +219,10 @@ public class CommandHub : NetworkBehaviour {
 			player.GetComponent<CommandHub>().RpcResourceCheat();
 			return;
 		}
+		if(IS == "marcopolo"){
+			player.GetComponent<CommandHub>().RpcDeployPositionCheat();
+			return;
+		}
 		string[] splitIS = IS.Split(' ');
 		List<string> parametersList = new List<string>();
 		if(splitIS.Length > 3){
@@ -224,6 +236,11 @@ public class CommandHub : NetworkBehaviour {
 
 		if(ISOpCode == "deploy"){
 			
+			if(!deployPositionCheat && ((client == 0 && targetY > 1) || (client == 1 && targetY < 8))){
+				errorText.GenerateErrorText();
+				return;
+			}
+
 			GameObject newUnit;
 			//PI: parameter index
 			int multipleDeployPI = ParamMultipleDeploy(parametersList);
@@ -273,7 +290,7 @@ public class CommandHub : NetworkBehaviour {
 
 	IEnumerator DeployCoroutine(int unitIndex, GameObject player, int spendingPerUnit, int unitCount, int gridX, int gridY){
 		for(int i=0; i < unitCount; i++){
-			Vector3 deployPosition = GridToRW.GetGridToRW(gridX, gridY, odin.GetComponent<AStarMap>());
+			Vector3 deployPosition = GRWInterface.GetGridToRW(gridX, gridY, odin.GetComponent<AStarMap>());
 			CmdDeployUnit(unitIndex, player, deployPosition, spendingPerUnit);
 			yield return new WaitForSeconds(0.2f);
 			//yield return null;
@@ -300,7 +317,7 @@ public class CommandHub : NetworkBehaviour {
 	void CmdExecute(string ISOpCode, string ISUnits, int targetX, int targetY, GameObject player){
 		if(ISOpCode == "deploy"){
 			GameObject newUnit;
-			Vector3 deployPosition = GridToRW.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
+			Vector3 deployPosition = GRWInterface.GetGridToRW(targetX, targetY, odin.GetComponent<AStarMap>());
 			if(ISUnits == "marine"){
 				if(player.GetComponent<CommandHub>().resource >= 20){
 					newUnit = Instantiate(deployableUnits[0], deployPosition, Quaternion.identity);

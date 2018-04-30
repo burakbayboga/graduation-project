@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CSF0 : BTNode {
 
-	public CSF0(GCS _unit){
+	float threshold;
+
+	public CSF0(GCS _unit, float _threshold){
 		children = new List<BTNode>();
 		unit = _unit;
+		threshold = _threshold;
 	}
 
 	public override int Execute(){
-		if(unit.currentStress >= 50){
+		if(unit.currentStress >= threshold){
 			return children[0].Execute();
 		}
 		else{

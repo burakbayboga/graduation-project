@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridToRW : MonoBehaviour {
+public class GRWInterface : MonoBehaviour {
 
 
 
 	public static Vector2 GetGridToRW(int gridCoordX, int gridCoordY, AStarMap mapHook){
 		Vector2 gridStartRW = new Vector2(gridCoordX*5f, gridCoordY*5f);
-		return GridToRW.GetVacantPoint((int)(gridStartRW.x), (int)(gridStartRW.y), mapHook);	
+		return GRWInterface.GetVacantPoint((int)(gridStartRW.x), (int)(gridStartRW.y), mapHook);	
+	}
+
+	public static Vector2 GetRWToGrid(int rWCoordX, int rWCoordY){
+		int gridCoordX = (rWCoordX - (rWCoordX % 5)) / 5;
+		int gridCoordY = (rWCoordY - (rWCoordY % 5)) / 5;
+		return new Vector2(gridCoordX, gridCoordY);
 	}
 
 	static Vector2 GetVacantPoint(int xStartRW, int yStartRW, AStarMap mapHook){
@@ -25,7 +31,6 @@ public class GridToRW : MonoBehaviour {
 		for(int i=xStartRW; i < xStartRW+6; i++){
 			for(int j=yStartRW; j < yStartRW+6; j++){
 				if(map[i,j].walkable){
-					//Debug.Log(map[i,j].pos);
 					possiblePositions.Add(map[i,j].pos);
 				}
 			}
@@ -41,8 +46,7 @@ public class GridToRW : MonoBehaviour {
 		}
 		Vector2 target = possiblePositions[Random.Range(0, possiblePositions.Count)];
 		return target;
-
-
 	}
+
 
 }

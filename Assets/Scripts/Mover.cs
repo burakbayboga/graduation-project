@@ -61,34 +61,18 @@ public class Mover : MonoBehaviour {
 		if(!unit.sideTracked){
 			unit.rWTarget = target;
 		}
-		
 		ultTarget = target;
-		/*if(unit.rWTarget.x == -1f){
-			unit.rWTarget = new Vector3(ultTarget.x, ultTarget.y);
-		}*/
 		GetPath(ultTarget);
-		//StartMovement();
 	}
 
 	public void GetMovingGrid(int _xGrid, int _yGrid){
-		//Override();
-
-
-		Vector2 tempTarget = GridToRW.GetGridToRW(_xGrid, _yGrid, unit.odin.GetComponent<AStarMap>());
+		Vector2 tempTarget = GRWInterface.GetGridToRW(_xGrid, _yGrid, unit.odin.GetComponent<AStarMap>());
 		if(tempTarget.x == -1f){
 			//FIX ME PLS
 			Debug.Log("grid full");
 		}
-		//unit.rWTarget = new Vector3(tempTarget.x, tempTarget.y);
 		GetMovingRW(tempTarget);
 	}
-
-	public void RunForCover(int _x, int _y){
-		ultTarget = new Vector2(_x, _y);
-		GetPath(ultTarget);
-		
-	}
-
 
 
 	void GetPath(Vector2 targetPos){
@@ -135,12 +119,12 @@ public class Mover : MonoBehaviour {
 		Vector3 currentPosition = unit.transform.position;
 		if((currentPosition - unit.rWTarget).magnitude <= 8f/*currentPosition.x >= unit.gridTarget.x*5f && currentPosition.x <= unit.gridTarget.x*5f+5f
 			&& currentPosition.y >= unit.gridTarget.y*5f && currentPosition.y <= unit.gridTarget.y*5f+5f*/){
-			//Debug.Log("reached target grid and got stuck");
-			//Debug.Log(unit.diffusing);
 			if(unit.diffusing){
-				Debug.Log("diffusionFail = true");
 				//Debug.Log("diffusing + diffusion fail");
 				unit.diffusionFail = true;
+			}
+			else if(unit.charging){
+				unit.chargeFail = true;
 			}
 			else{
 				GetMovingGrid((int)(unit.gridTarget.x), (int)(unit.gridTarget.y));

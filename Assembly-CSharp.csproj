@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BT\ActionNodes\Charge.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\Diffuse.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\GoTowardsTargetLocation.cs" />
      <Compile Include="Assets\Scripts\BT\ActionNodes\MakeUnitIdle.cs" />
@@ -61,6 +62,7 @@
      <Compile Include="Assets\Scripts\BT\ActionNodes\TakeCover_Deprecated.cs" />
      <Compile Include="Assets\Scripts\BT\BT.cs" />
      <Compile Include="Assets\Scripts\BT\BTNode.cs" />
+     <Compile Include="Assets\Scripts\BT\ConditionNodes\AtTargetLocation.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\AwayFromTargetLocation.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\BeingShotAt.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsCommandHoldPosition.cs" />
@@ -70,8 +72,10 @@
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsEnemyNearby.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\IsEnemyWeakerThanUs.cs" />
      <Compile Include="Assets\Scripts\BT\ConditionNodes\NotAtTargetLocation.cs" />
+     <Compile Include="Assets\Scripts\BT\ConditionNodes\Overwhelmed.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\CSF0.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\FallbackNode.cs" />
+     <Compile Include="Assets\Scripts\BT\FlowControlNodes\RSF0.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\SequenceNode.cs" />
      <Compile Include="Assets\Scripts\BT\WrapperNodes\InverterNode.cs" />
      <Compile Include="Assets\Scripts\Colliders\CoverSpotsCollider.cs" />
@@ -89,7 +93,7 @@
      <Compile Include="Assets\Scripts\Odin\AStarMap.cs" />
      <Compile Include="Assets\Scripts\Odin\EmptySpotIDInit.cs" />
      <Compile Include="Assets\Scripts\Odin\GridManager.cs" />
-     <Compile Include="Assets\Scripts\Odin\GridToRW.cs" />
+     <Compile Include="Assets\Scripts\Odin\GRWInterface.cs" />
      <Compile Include="Assets\Scripts\overlapbox.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStarNode.cs" />

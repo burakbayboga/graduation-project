@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da79c33dccc6d5449b32308b7f0d8bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 50
+  mapSize: 51
 --- !u!114 &114886576597347254
 MonoBehaviour:
   m_ObjectHideFlags: 1
