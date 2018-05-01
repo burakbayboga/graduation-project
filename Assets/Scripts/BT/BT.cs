@@ -219,14 +219,32 @@ public class BT {
 										BTNode a11 = new GoTowardsTargetLocation(unit);
 										s7.children.Add(a11);
 
-								BTNode a12 = new Diffuse(unit, emptySlot);
-								f5.children.Add(a12);
+								BTNode s8 = new SequenceNode(unit);
+								f5.children.Add(s8);
 
-				BTNode s8 = new SequenceNode(unit);
-				f0.children.Add(s8);
+										BTNode a12 = new Diffuse(unit, emptySlot);
+										s8.children.Add(a12);
+
+										BTNode a13 = new MakeUnitInPosition(unit);
+										f5.children.Add(a13);
+
+				BTNode s9 = new SequenceNode(unit);
+				f0.children.Add(s9);
 
 						BTNode c10 = new IsCommandInPosition(unit);
-						s8.children.Add(c10);
+						s9.children.Add(c10);
+
+						BTNode c11 = new BeingShotAt(unit);
+						s9.children.Add(c11);
+
+						BTNode sf2 = new CSF0(unit, 100f);
+						s9.children.Add(sf2);
+
+								BTNode a14 = new Charge(unit);
+								sf2.children.Add(a14);
+
+								BTNode a15 = new TakeCover(unit, emptySlot);
+								s9.children.Add(a15);
 
 		root = f0;
 	}

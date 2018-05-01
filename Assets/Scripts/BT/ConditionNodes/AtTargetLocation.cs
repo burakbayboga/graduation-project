@@ -9,7 +9,7 @@ public class AtTargetLocation : BTNode {
 	}
 
 	public override int Execute(){
-		if(unit.gameObject.transform.position == unit.rWTarget){
+		if(unit.gameObject.transform.position == unit.rWTarget || unit.diffusing){
 			return 0;
 		}
 		return -1;
