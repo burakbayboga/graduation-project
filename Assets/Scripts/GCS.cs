@@ -22,6 +22,7 @@ public class GCS : NetworkBehaviour {
 	public string stressResolution;
 	[SyncVar]
 	public int personCount;
+	public int personCountBase;
 	public bool hiding;
 	public string unitType;
 
@@ -56,6 +57,7 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
+		personCountBase = personCount;
 		stressResolution = "calm";
 		diffusing = false;
 		diffusionFail = false;
@@ -85,6 +87,17 @@ public class GCS : NetworkBehaviour {
 		
 		InitBT();
 		StartCoroutine(ShootCoroutine());
+		StartCoroutine(RefreshCoroutine());
+	}
+
+	IEnumerator RefreshCoroutine(){
+		BTNode underAttack = new BeingShotAt(this);
+		while(true){
+			if(underAttack.Execute() == -1 && personCount < personCountBase){
+				commandHub.CmdRefreshUnit(gameObject);
+			}
+			yield return new WaitForSeconds(10f);
+		}
 	}
 
 	

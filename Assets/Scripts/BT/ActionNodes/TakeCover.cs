@@ -9,7 +9,6 @@ using UnityEngine;
 public class TakeCover : BTNode {
 
 	Vector3 currentPos;
-	List<int> possibilities;
 	Collider[] coverColliders;
 	Vector3 previousTarget;
 	int emptySlot;
@@ -18,10 +17,6 @@ public class TakeCover : BTNode {
 	public TakeCover(GCS _unit, int _emptySlot){
 		emptySlot = _emptySlot;
 		unit = _unit;
-		/*possibilities = new List<int>();
-		for(int i=0; i < 8; i++){
-			possibilities.Add(emptySlot);
-		}*/
 		previousTarget = new Vector3(-1f, -1f, -1f);
 		candidates = new List<CoverSpotCandidate>();
 	}

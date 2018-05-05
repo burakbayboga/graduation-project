@@ -89,6 +89,12 @@ public class CommandHub : NetworkBehaviour {
 	}
 
 	[Command]
+	public void CmdRefreshUnit(GameObject unit){
+		unit.GetComponent<GCS>().personCount++;
+		unit.GetComponent<GCS>().RpcLickWound(unit.GetComponent<GCS>().personCount);
+	}
+
+	[Command]
 	public void CmdHit(GameObject unitHit){
 		unitHit.GetComponent<GCS>().personCount--;
 		if(unitHit.GetComponent<GCS>().personCount > 0){
@@ -241,7 +247,7 @@ public class CommandHub : NetworkBehaviour {
 				return;
 			}
 
-			GameObject newUnit;
+			//GameObject newUnit;
 			//PI: parameter index
 			int multipleDeployPI = ParamMultipleDeploy(parametersList);
 			int multipleDeployCount;

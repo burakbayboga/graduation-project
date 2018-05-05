@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Charge : BTNode {
 
-	Vector3 currentPos;
+	//Vector3 currentPos;
 	List<Enemy> unitsThatCanShootMe;
 	Vector3 firstChargePos;
+	string stressResolution;
 
 	public Charge(GCS _unit){
 		children = new List<BTNode>();
 		unit = _unit;
 		unitsThatCanShootMe = new List<Enemy>();
 		firstChargePos = new Vector3(-1f, -1f, -1f);
+		stressResolution = "charging";
 	}
 
 	public override int Execute(){
@@ -29,7 +31,7 @@ public class Charge : BTNode {
 			firstChargePos = new Vector3(-1f, -1f, -1f);
 		}
 
-		currentPos = unit.gameObject.transform.position;
+		//currentPos = unit.gameObject.transform.position;
 		unit.ClearEnemyList();
 		unit.UpdateEnemyPositions();
 

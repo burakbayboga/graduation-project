@@ -226,7 +226,7 @@ public class BT {
 										s8.children.Add(a12);
 
 										BTNode a13 = new MakeUnitInPosition(unit);
-										f5.children.Add(a13);
+										s8.children.Add(a13);
 
 				BTNode s9 = new SequenceNode(unit);
 				f0.children.Add(s9);
