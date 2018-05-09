@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\RSF0.cs" />
      <Compile Include="Assets\Scripts\BT\FlowControlNodes\SequenceNode.cs" />
      <Compile Include="Assets\Scripts\BT\WrapperNodes\InverterNode.cs" />
+     <Compile Include="Assets\Scripts\Circle.cs" />
      <Compile Include="Assets\Scripts\Colliders\CoverSpotsCollider.cs" />
      <Compile Include="Assets\Scripts\Colliders\RangeCollider.cs" />
      <Compile Include="Assets\Scripts\Colliders\SpotCollider.cs" />

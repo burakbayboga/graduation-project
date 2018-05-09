@@ -37,6 +37,7 @@ public class GCS : NetworkBehaviour {
 	public string currentCommand;
 	public TextMesh personCountText;
 	public TextMesh deployedIndexText;
+	public GameObject rangeLineRenderer;
 
 	public bool localUnit;
 
@@ -88,6 +89,20 @@ public class GCS : NetworkBehaviour {
 		InitBT();
 		StartCoroutine(ShootCoroutine());
 		StartCoroutine(RefreshCoroutine());
+	}
+
+	public void ShowRange(){
+		StartCoroutine(ShowRangeCoroutine());
+	}
+
+	IEnumerator ShowRangeCoroutine(){
+		Circle circle = rangeLineRenderer.GetComponent<Circle>();
+		for(int i=0; i < 4; i++){
+			circle.Show();
+			yield return new WaitForSeconds(0.2f);
+			circle.Hide();
+			yield return new WaitForSeconds(0.2f);
+		}
 	}
 
 	IEnumerator RefreshCoroutine(){

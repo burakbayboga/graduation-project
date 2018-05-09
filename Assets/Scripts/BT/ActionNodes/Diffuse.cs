@@ -51,7 +51,6 @@ public class Diffuse : BTNode {
 		unit.mover.GetMovingRW(new Vector2(targetPos.x, targetPos.y));
 		unit.diffusing = true;
 		return 1;
-
 	}
 
 	Collider[] GetColliders(){

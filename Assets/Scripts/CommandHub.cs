@@ -236,9 +236,12 @@ public class CommandHub : NetworkBehaviour {
 		}
 		string ISUnits = splitIS[0];
 		string ISOpCode = splitIS[1];
-		string[] splitISTargetCoords = splitIS[2].Split(',');
-		int targetX = int.Parse(splitISTargetCoords[0]);
-		int targetY = int.Parse(splitISTargetCoords[1]);
+		if(splitIS.Length > 2){
+			string[] splitISTargetCoords = splitIS[2].Split(',');
+			int targetX = int.Parse(splitISTargetCoords[0]);
+			int targetY = int.Parse(splitISTargetCoords[1]);
+		}
+		
 
 		if(ISOpCode == "deploy"){
 			
@@ -289,6 +292,13 @@ public class CommandHub : NetworkBehaviour {
 				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
 				unitCommanded.currentCommand = "hold_position";
 				unitCommanded.gridTarget = new Vector2(targetX, targetY);
+			}
+		}
+		else if(ISOpCode == "range"){
+			List<int> unitIDs = ParseISUnits(ISUnits);
+			for(int i=0; i < unitIDs.Count; i++){
+				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
+				unitCommanded.ShowRange();
 			}
 		}
 	}
