@@ -58,6 +58,7 @@ public class GCS : NetworkBehaviour {
 	
 
 	void Start(){
+		baseFire = Instantiate(baseFire, Vector3.zero, Quaternion.identity);
 		personCountBase = personCount;
 		stressResolution = "calm";
 		diffusing = false;
@@ -69,6 +70,9 @@ public class GCS : NetworkBehaviour {
 		sideTracked = false;
 		GetComponent<Renderer>().sharedMaterial = materials[client];
 		odin = GameObject.FindGameObjectsWithTag("odin")[0];
+		baseFire.odin = odin;
+		baseFire.bulletManager = odin.GetComponent<BulletManager>();
+		baseFire.shooterObject = gameObject;
 		mover = GetComponent<Mover>();
 		//personCountText = GetComponentInChildren<TextMesh>();
 		//personCountText = transform.GetChild(1).GetComponent<TextMesh>();

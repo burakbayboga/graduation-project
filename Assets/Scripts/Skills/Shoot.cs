@@ -11,6 +11,11 @@ public class Shoot : BaseFire {
 	GCS shooterSheet;
 	GCS enemySheet;
 
+	
+
+
+
+
 	public override void Fire(GameObject _shooter){
 		shooter = _shooter;
 		shooterPos = shooter.transform.position;
@@ -59,9 +64,9 @@ public class Shoot : BaseFire {
 			shooterSheet.commandHub.CmdHit(enemy);
 		}
 
-
-		
-
+		CreateBullet(enemyPos, shooterPos);
 	}
+
+	
 	
 }

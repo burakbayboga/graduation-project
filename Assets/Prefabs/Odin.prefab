@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4352259084957164}
   - component: {fileID: 114682419351533974}
   - component: {fileID: 114886576597347254}
+  - component: {fileID: 114940521907247612}
   m_Layer: 0
   m_Name: Odin
   m_TagString: odin
@@ -85,3 +86,18 @@ MonoBehaviour:
     i15: 29
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114940521907247612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179630930423322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3beff3e09a36a4daab19d9e5f4078f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1178427500017058, guid: 2d91186a05ec8b34ea3349494b391ea1,
+    type: 2}
+  bullets: []
+  freeBullets: 

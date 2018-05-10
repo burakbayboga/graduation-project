@@ -238,8 +238,8 @@ public class CommandHub : NetworkBehaviour {
 		string ISOpCode = splitIS[1];
 		if(splitIS.Length > 2){
 			string[] splitISTargetCoords = splitIS[2].Split(',');
-			int targetX = int.Parse(splitISTargetCoords[0]);
-			int targetY = int.Parse(splitISTargetCoords[1]);
+			targetX = int.Parse(splitISTargetCoords[0]);
+			targetY = int.Parse(splitISTargetCoords[1]);
 		}
 		
 

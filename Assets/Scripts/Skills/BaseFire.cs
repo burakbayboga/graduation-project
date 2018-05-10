@@ -3,10 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseFire : MonoBehaviour {
+	
+	public BulletManager bulletManager;
+	BulletLine bullet;
+	int bulletIndex;
+	public GameObject odin;
+	public GameObject shooterObject;
 
 	public virtual void Fire(GameObject _shooter){
 
 	}
+
+	public void CreateBullet(Vector3 target, Vector3 source){
+		
+		bulletIndex = bulletManager.GetBullet();
+		if(bulletIndex == -1){
+			return;
+		}
+		bullet = bulletManager.bullets[bulletIndex].GetComponent<BulletLine>();
+		bulletManager.freeBullets[bulletIndex] = false;
+		bullet.GetComponent<Renderer>().material = shooterObject.GetComponent<Renderer>().sharedMaterial;
+		bullet.Show(target, source);
+		StartCoroutine(BulletShowTimer());
+	}
+
+	IEnumerator BulletShowTimer(){
+		yield return new WaitForSeconds(0.2f);
+		bullet.Hide();
+		bulletManager.freeBullets[bulletIndex] = true;
+	}
+	
 
 	public int EnemyCoverLevel(Vector3 enemyPos, Vector3 shooterPos){
 		int layerMask = 1 << 10;

@@ -50,7 +50,7 @@ public class TakeCover : BTNode {
 		if(targetPos == previousTarget){
 			return 0;
 		}
-		Debug.Log(targetPos);
+		//Debug.Log(targetPos);
 		previousTarget = targetPos;
 		if(unit.currentCommand != "InPosition"){
 			unit.sideTracked = true;
