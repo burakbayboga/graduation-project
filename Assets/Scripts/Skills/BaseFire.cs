@@ -16,7 +16,7 @@ public class BaseFire : MonoBehaviour {
 
 	public void CreateBullet(Vector3 target, Vector3 source){
 		
-		bulletIndex = bulletManager.GetBullet();
+		bulletIndex = bulletManager.GetBulletIndex();
 		if(bulletIndex == -1){
 			return;
 		}

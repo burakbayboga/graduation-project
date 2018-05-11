@@ -15,10 +15,11 @@ public class BulletManager : MonoBehaviour {
 		for(int i=0; i < 100; i++){
 			bullets.Add(Instantiate(bulletPrefab, new Vector3(-100f, -100f, 0f), Quaternion.identity));
 			freeBullets.Add(true);
+			bullets[i].transform.parent = gameObject.transform;
 		}
 	}
 
-	public int GetBullet(){
+	public int GetBulletIndex(){
 		for(int i=0; i < 100; i++){
 			if(freeBullets[i]){
 				return i;

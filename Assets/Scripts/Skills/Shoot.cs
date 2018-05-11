@@ -11,11 +11,6 @@ public class Shoot : BaseFire {
 	GCS shooterSheet;
 	GCS enemySheet;
 
-	
-
-
-
-
 	public override void Fire(GameObject _shooter){
 		shooter = _shooter;
 		shooterPos = shooter.transform.position;
@@ -47,7 +42,6 @@ public class Shoot : BaseFire {
 		}
 
 		int enemyCoverLevel = EnemyCoverLevel(enemyPos, shooterPos);
-		//Debug.Log(enemyCoverLevel);
 		if(enemyCoverLevel == 1){
 			hitDie -= hitDieType / 3;
 		}
@@ -64,7 +58,7 @@ public class Shoot : BaseFire {
 			shooterSheet.commandHub.CmdHit(enemy);
 		}
 
-		CreateBullet(enemyPos, shooterPos);
+		shooterSheet.commandHub.CmdCreateBullet(enemyPos, shooterPos);
 	}
 
 	

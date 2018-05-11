@@ -64,6 +64,17 @@ public class CommandHub : NetworkBehaviour {
 		}
 	}
 
+	[Command]
+	public void CmdCreateBullet(Vector3 target, Vector3 source){
+		RpcCreateBullet(target, source);
+	}
+
+	[ClientRpc]
+	public void RpcCreateBullet(Vector3 target, Vector3 source){
+		//HORRIBLE, HORRIBLE WORKAROUND
+		deployedUnits[0].GetComponent<GCS>().baseFire.CreateBullet(target, source);
+	}
+
 	[ClientRpc]
 	public void RpcSpendResource(int amountSpent){
 		resource -= amountSpent;
@@ -297,8 +308,8 @@ public class CommandHub : NetworkBehaviour {
 		else if(ISOpCode == "range"){
 			List<int> unitIDs = ParseISUnits(ISUnits);
 			for(int i=0; i < unitIDs.Count; i++){
-				GCS unitCommanded = deployedUnits[unitIDs[i]].GetComponent<GCS>();
-				unitCommanded.ShowRange();
+				GCS unitCommanded = player.GetComponent<CommandHub>().deployedUnits[unitIDs[i]].GetComponent<GCS>();
+				unitCommanded.RpcShowRange();
 			}
 		}
 	}

@@ -95,7 +95,13 @@ public class GCS : NetworkBehaviour {
 		StartCoroutine(RefreshCoroutine());
 	}
 
-	public void ShowRange(){
+	
+
+	[ClientRpc]
+	public void RpcShowRange(){
+		if(!localUnit){
+			return;
+		}
 		StartCoroutine(ShowRangeCoroutine());
 	}
 
@@ -118,8 +124,6 @@ public class GCS : NetworkBehaviour {
 			yield return new WaitForSeconds(10f);
 		}
 	}
-
-	
 
 	[ClientRpc]
 	public void RpcLickWound(int newPersonCount){
@@ -200,8 +204,6 @@ public class GCS : NetworkBehaviour {
 		}
 	}
 
-	
-
 	public void Alert(GameObject _enemyUnit){
 		int index = IndexOfEnemy(_enemyUnit);
 		if(index == -1){
@@ -239,8 +241,5 @@ public class GCS : NetworkBehaviour {
 			}
 		}
 		return -1;
-	}
-
-
-	
+	}	
 }
